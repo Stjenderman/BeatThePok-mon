@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BeatThePokemon</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <div class="hover-slidedown container-fluid">
+            <nav class="navbar blue">
+                <div class="logo-container">
+                </div>
+            </nav>
+            <div class="nav-transformation blue container-fluid">
+                <table class="nav-table">
+                    <tr>
+                        <th valign="top"><a class="nav-text" asp-controller="Home" asp-action="Index">Home</a></th>
+                        <th valign="top"><a class="nav-text" asp-controller="Account" asp-action="Login">Login</a></th>
+                        <th valign="top"><a class="nav-text" asp-controller="Gevecht" asp-action="Index">Gevecht</a></th>
+                        <th valign="top">
+                            <div class="poke-nav-btn">
+                                <a class="nav-text">Pokémon</a>
+                                <div class="poke-dropdown-div">
+                                    <a class="nav-text" asp-controller="Pokemon" asp-action="Create">Create</a>
+                                    <br />
+                                    <a class="nav-text" asp-controller="Pokemon" asp-action="AllePokemon">View</a>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </header>
+
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - BeatThePokemon - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

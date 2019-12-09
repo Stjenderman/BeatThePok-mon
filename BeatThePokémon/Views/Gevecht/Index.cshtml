@@ -1,0 +1,33 @@
+﻿@using BeatThePokemon.Models.ViewModels
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid div-gevecht-pok1 row">
+    <div class="offset-md-8 col-md-3">
+        <img src="~/images/FireIcon.png">
+    </div>
+</div>
+<div class="container-fluid div-gevecht-health row">
+    <div class="offset-md-2 col-md-3 health-bar-1">
+
+    </div>
+    <div class="offset-md-8 col-md-3 health-bar-2">
+
+    </div>
+</div>
+<div class="container-fluid div-gevecht-pok2 row">
+    <div class="offset-md-2 col-md-3">
+        <img src="~/images/FireIcon.png">
+    </div>
+</div>
+
+<div class="container-fluid div-gevecht-knoppen row">
+    <form class="col-md-6 knop" asp-controller="Gevecht" asp-action="Aanvallen" method="get">
+        <input type="submit" class="btn" value="Aanvallen" />
+    </form>
+    <form class="col-md-6 knop">
+        <input type="submit" class="btn" value="Inventory" asp-controller="Gevecht" asp-action="Aanvallen" />
+    </form>
+</div>

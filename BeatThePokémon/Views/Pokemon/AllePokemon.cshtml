@@ -1,0 +1,35 @@
+﻿@model BeatThePokemon.Models.ViewModels.AllePokemonViewModel
+@{
+    ViewData["Title"] = "AllePokemon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+
+<div class="container">
+    <h1>Alle Pokémon</h1>
+    <table class="table-pokemon">
+        <tr class="table-row-first">
+            <th>Naam</th>
+            <th>Type</th>
+            <th>Uiterlijk</th>
+            <th> </th>
+        </tr>
+        @foreach (var pokemon in Model.AllePokemon)
+        {
+    <tr>
+        <th>@pokemon.Naam</th>
+        <th><img class="img-soort" src="~/images/@pokemon.Type.ImageNaam"></th>
+        <th class="pok-image"><img src="data:image/png;base64, @pokemon.Image" style="max-width:100%"/></th>
+        <th>
+            <form method="post" asp-for="Id" asp-controller="Pokemon" asp-action="Delete">
+                <input type="submit" value="Delete" />
+                <input type="hidden" name="Id" value="@pokemon.Id" />
+            </form>
+        </th>
+    </tr>
+        }
+    </table>
+</div>
+
+</body>

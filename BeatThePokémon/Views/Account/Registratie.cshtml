@@ -1,0 +1,42 @@
+﻿@model BeatThePokemon.Models.ViewModels.RegistratieViewModel
+@{
+    ViewData["Title"] = "Registratie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container">
+        <h1>Registratie</h1>
+        <br />
+        <form method="post">
+            <div class="row">
+                <div class="col-md-2">
+                    <label asp-for="Gebruikersnaam">Gebruikersnaam:</label>
+                    <input asp-for="Gebruikersnaam" type="text" />
+                    <span asp-validation-for="Gebruikersnaam" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-2">
+                    <label asp-for="Wachtwoord">Wachtwoord:</label>
+                    <input asp-for="Wachtwoord" type="password" />
+                    <span asp-validation-for="Wachtwoord" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-2">
+                    <label asp-for="Email">Email:</label>
+                    <input asp-for="Email" type="email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-2">
+                    <input asp-controller="Account" asp-action="Registratie" type="submit" value="Account Aanmaken" />
+                </div>
+            </div>
+        </form>
+    </div>
+
