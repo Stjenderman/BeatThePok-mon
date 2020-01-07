@@ -16,6 +16,9 @@ namespace BeatThePokemon.Models.ViewModels
         public int Type { get; set; }
         [Required(ErrorMessage = "Voeg een afbeelding toe!")]
         public IFormFile Image { get; set; }
+        public string NaamAanval { get; set; }
+        public int MaxHP { get; set; }
+        public Aanval ToeTeVoegenAanval { get; set; }
         public List<Soort> AlleSoorten { get; set; }
     }
 }

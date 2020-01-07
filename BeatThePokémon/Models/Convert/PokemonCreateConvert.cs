@@ -11,10 +11,12 @@ namespace BeatThePokemon.Models.Convert
     {
         public Pokemon CreateToPokemon(PokemonCreateViewModel pcvm)
         {
-            Soort s = new Soort((Soort.TypeSoorten)pcvm.Type, ((Soort.TypeSoorten)pcvm.Type).ToString());
+            Soort s = new Soort((Soort.TypeSoorten)pcvm.Type, null);
+            List<Aanval> aanvallen = new List<Aanval>();
+            aanvallen.Add(pcvm.ToeTeVoegenAanval);
             MemoryStream memoryStream = new MemoryStream();
             pcvm.Image.CopyTo(memoryStream);
-            return new Pokemon(pcvm.Naam, s, memoryStream.ToArray());
+            return new Pokemon(pcvm.Naam, s, aanvallen, memoryStream.ToArray());
         }
     }
 }

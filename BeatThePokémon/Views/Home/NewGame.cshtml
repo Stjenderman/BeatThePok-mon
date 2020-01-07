@@ -1,0 +1,23 @@
+﻿@using BeatThePokemon.Models.ViewModels
+@model BeatThePokemon.Models.ViewModels.NewGameViewModel
+@{
+    ViewData["Title"] = "NewGame";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1>NewGame</h1>
+
+    <div class="row">
+        @foreach (NewGameViewModel p in Model.RandomPokemon)
+        {
+            <div class="col-md-4">
+                <img class="choose-image choose-button" data-pokemon="@p.Pokemon.Id" src="data:image/png;base64, @p.Image" />
+            </div>
+        }
+    </div>
+    <form method="post">
+        <input class="hidden-pokemon" type="hidden" value="" asp-for="PokemonId"/>
+        <input class="confirm-btn" type="submit" value="Confirm" />
+    </form>
+</div>

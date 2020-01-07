@@ -19,10 +19,12 @@ namespace BeatThePokemon.Repos
         {
             if (p.Type.Naam == 0)
             { return false; }
-            if (ctx.Create(p))
-            { return true; }
+            return ctx.Create(p);
+        }
 
-            return false;
+        public Pokemon GetById(int id)
+        {
+            return ctx.GetById(id);
         }
 
         public List<Pokemon> GetAll()
@@ -32,11 +34,7 @@ namespace BeatThePokemon.Repos
 
         public bool Delete(int id)
         {
-            if (ctx.Delete(id))
-            { return true; }
-
-            else
-            { return false; }
+            return ctx.Delete(id);
         }
     }
 }

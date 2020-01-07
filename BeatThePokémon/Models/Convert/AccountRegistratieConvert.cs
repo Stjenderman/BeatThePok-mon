@@ -10,7 +10,13 @@ namespace BeatThePokemon.Models.Convert
     {
         public Account RegistratieToAccount(RegistratieViewModel rvm)
         {
-            Account a = new Account(rvm.Gebruikersnaam, rvm.Wachtwoord, rvm.Email);
+            Account a = new Account()
+            {
+                Gebruikersnaam = rvm.Gebruikersnaam,
+                Wachtwoord = rvm.Wachtwoord,
+                Email = rvm.Email
+            };
+
             return a;
         }
     }

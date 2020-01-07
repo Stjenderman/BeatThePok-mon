@@ -23,5 +23,10 @@ namespace BeatThePokemon.Models
             this.Naam = naam;
             this.ImageNaam = imageNaam;
         }
+
+        public Soort()
+        {
+
+        }
     }
 }

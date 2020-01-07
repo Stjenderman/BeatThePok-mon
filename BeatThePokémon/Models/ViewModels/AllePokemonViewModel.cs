@@ -10,6 +10,7 @@ namespace BeatThePokemon.Models.ViewModels
         public string Naam { get; set; }
         public Soort Type { get; set; }
         public string Image { get; set; }
+        public List<Aanval> Aanvallen { get; set; }
 
         public List<AllePokemonViewModel> AllePokemon;
         

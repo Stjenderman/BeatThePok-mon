@@ -9,7 +9,7 @@ namespace BeatThePokemon.Context.Interfaces
     public interface IPokemonContext
     {
         bool Create(Pokemon pokemon);
-        //Pokemon GetById(int id);
+        Pokemon GetById(int id);
         List<Pokemon> GetAll();
         //Pokemon Update(Pokemon pokemon);
         bool Delete(int id);

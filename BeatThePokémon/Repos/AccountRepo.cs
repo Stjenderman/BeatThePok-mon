@@ -28,6 +28,26 @@ namespace BeatThePokemon.Repos
             return wachtwoord == a.Wachtwoord;
         }
 
+        public int GetIdByName(string naam)
+        {
+            Account a = ctx.GetByNaam(naam);
+            return a.Id;
+        }
+
+        public bool HasPokemon(int id)
+        {
+            if(ctx.GetAllPokemonOfUser(id).Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public Account GetUserById(int accId)
+        {
+            return ctx.GetById(accId);
+        }
+
         //public Account GetById()
         //public List<Account> GetAll()
         //public bool Update()

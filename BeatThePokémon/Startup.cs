@@ -35,6 +35,14 @@ namespace BeatThePokemon
             services.AddTransient<IAccountContext, AccountContext>();
             services.AddScoped<AccountRepo>();
 
+            services.AddTransient<IHomeContext, HomeContext>();
+            services.AddScoped<HomeRepo>();
+
+            services.AddTransient<IAanvalContext, AanvalContext>();
+            services.AddScoped<AanvalRepo>();
+
+            services.AddSession();
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
@@ -51,6 +59,9 @@ namespace BeatThePokemon
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

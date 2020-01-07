@@ -1,27 +1,26 @@
-﻿using System;
+﻿using BeatThePokemon.Context.Interfaces;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BeatThePokemon.Context.Interfaces;
-using BeatThePokemon.Models;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 
 namespace BeatThePokemon.Context.MSSQL
 {
-    public class SoortContext : ISoortContext
+    public class HomeContext : IHomeContext
     {
         private readonly string _connstring;
 
-        public SoortContext(IConfiguration configuration)
+        public HomeContext(IConfiguration configuration)
         {
             _connstring = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public Soort GetById(int id)
+        public List<int> GetAllId()
         {
-            Soort s = new Soort();
-            string query = "SELECT * FROM dbo.Soort WHERE dbo.Soort.Naam = @Id";
+            string query = "SELECT Id FROM dbo.Pokémon";
+            List<int> ids = new List<int>();
 
             try
             {
@@ -29,12 +28,11 @@ namespace BeatThePokemon.Context.MSSQL
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Id", id);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            s = new Soort((Soort.TypeSoorten)reader["Naam"], reader["ImageNaam"].ToString());
+                            ids.Add((int)reader["Id"]);
                         }
                     }
                     conn.Close();
@@ -45,14 +43,12 @@ namespace BeatThePokemon.Context.MSSQL
                 Console.WriteLine(e);
                 throw;
             }
-
-            return s;
+            return ids;
         }
 
-        public List<Soort> GetAll()
+        public bool LinkPokemonToAccount(int pokeId, int accId, int maxHP)
         {
-            List<Soort> soorten = new List<Soort>();
-            string query = "SELECT * FROM dbo.Soort";
+            string query = "INSERT INTO dbo.GebruikerPokémon (GebruikerId, PokémonId, MaxHP, Hp) VALUES (@gebruikerId, @pokémonId, @maxHP, @hp)";
 
             try
             {
@@ -60,24 +56,25 @@ namespace BeatThePokemon.Context.MSSQL
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(query, conn);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using (cmd)
                     {
-                        while (reader.Read())
-                        {
-                            Soort tempSoort = new Soort((Soort.TypeSoorten)reader["NaamId"], reader["ImageNaam"].ToString());
-                            soorten.Add(tempSoort);
-                        }
+                        cmd.Parameters.AddWithValue(@"gebruikerId", accId);
+                        cmd.Parameters.AddWithValue(@"pokémonId", pokeId);
+                        cmd.Parameters.AddWithValue(@"maxHP", maxHP);
+                        cmd.Parameters.AddWithValue(@"hp", maxHP);
                     }
+
+                    cmd.ExecuteNonQuery();
+
                     conn.Close();
                 }
+                return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-
-            return soorten;
         }
     }
 }

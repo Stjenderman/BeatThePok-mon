@@ -4,30 +4,47 @@
 // Write your JavaScript code.
 
 
-//js voor create
+//js voor buttons
 $(function () {
     $(".SoortButton").click(
         function () {
             SetType("#TypeText", $(this).data("type"));
-            DeselectAllButtons();
+            DeselectAllTypeButtons();
             SelectAllButtons(this);
         }
     );
 });
 
+$(function () {
+    $(".choose-button").click(
+        function () {
+            SetType(".hidden-pokemon", $(this).data("pokemon"));
+            DeselectAllPokemonButtons();
+            SelectAllButtons(this);
+            ShowButton('.confirm-btn');
+        }
+    );
+});
 
 function SetType(typeText, type) {
     $(typeText).val(type);
 }
 
-function DeselectAllButtons() {
+function DeselectAllTypeButtons() {
     $('.SoortButton').css('border', '');
+}
+
+function DeselectAllPokemonButtons() {
+    $('.choose-button').css('border', '');
 }
 
 function SelectAllButtons(button) {
     $(button).css('border', 'darkgrey 3px solid');
 }
 
+function ShowButton(button) {
+    $(button).fadeIn(100);
+}
 
 //js voor layout
 
@@ -40,3 +57,4 @@ $(".poke-nav-btn").hover(
     function () { $(".poke-dropdown-div").stop().slideDown(500) },
     function () { $(".poke-dropdown-div").stop().slideUp(500) }
 );
+

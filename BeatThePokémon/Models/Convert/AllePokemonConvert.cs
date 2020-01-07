@@ -10,20 +10,21 @@ namespace BeatThePokemon.Models.Convert
     {
         public AllePokemonViewModel PokemonToView(List<Pokemon> pList)
         {
-            AllePokemonViewModel pvvm = new AllePokemonViewModel();
+            AllePokemonViewModel apvm = new AllePokemonViewModel();
             List<AllePokemonViewModel> temp = new List<AllePokemonViewModel>();
-            foreach (Pokemon tempPok in pList)
+            foreach (Pokemon p in pList)
             {
-                AllePokemonViewModel pvvmTemp = new AllePokemonViewModel();
-                pvvmTemp.Id = tempPok.Id;
-                pvvmTemp.Naam = tempPok.Naam;
-                pvvmTemp.Type = tempPok.Type;
-                pvvmTemp.Image = System.Convert.ToBase64String(tempPok.Uiterlijk);
-                temp.Add(pvvmTemp);
+                AllePokemonViewModel apvmTemp = new AllePokemonViewModel();
+                apvmTemp.Id = p.Id;
+                apvmTemp.Naam = p.Naam;
+                apvmTemp.Type = p.Type;
+                apvmTemp.Image = System.Convert.ToBase64String(p.Uiterlijk);
+                apvmTemp.Aanvallen = p.Aanvallen;
+                temp.Add(apvmTemp);
             }
 
-            pvvm.AllePokemon = temp;
-            return pvvm;
+            apvm.AllePokemon = temp;
+            return apvm;
         }
     }
 }

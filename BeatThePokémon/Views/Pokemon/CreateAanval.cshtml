@@ -1,0 +1,73 @@
+﻿@using BeatThePokemon.Models
+@model BeatThePokemon.Models.ViewModels.AanvalCreateViewModel
+@{
+    ViewData["Title"] = "CreateAanval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <body>
+        <form class="container" accept-charset="UTF-8" role="form" enctype="multipart/form-data" method="post">
+            <h1>Create Aanval</h1>
+
+            <div class="row">
+                <div class="col-2">
+                    <label>Naam:</label>
+                    <input asp-for="Naam" class="form-control" type="text">
+                    <span asp-validation-for="Naam" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-3">
+                    <label>Type:</label>
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                        @foreach (Soort soort in Model.AlleSoorten)
+                        {
+                            <label class="btn">
+                                <div class="SoortButton" data-type="@Convert.ToInt32(soort.Naam)" style="background-image: url(../images/@soort.ImageNaam" )></div>
+                            </label>
+                        }
+                    </div>
+                    <span asp-validation-for="Soort" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            @if (@Model.Soort == 0)
+            {
+                <input type="hidden" asp-for="Soort" id="TypeText" value="" />
+            }
+            else
+            {
+                <input type="hidden" asp-for="Soort" id="TypeText" />
+            }
+            </br>
+            <div class="row">
+                <div class="col-2">
+                    <label>PP:</label>
+                    <input asp-for="PP" class="form-control" type="text" value="">
+                    <span asp-validation-for="PP" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label>Accuratie:</label>
+                    <input asp-for="Accuratie" class="form-control" type="text" value="">
+                    <span asp-validation-for="Accuratie" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-2">
+                    <label>Power:</label>
+                    <input asp-for="Power" class="form-control" type="text" value="">
+                    <span asp-validation-for="Power" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="col-md-2">
+                <input type="submit" value="Create" />
+            </div>
+        </form>
+    </body>
+

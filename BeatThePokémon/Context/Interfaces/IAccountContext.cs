@@ -9,7 +9,9 @@ namespace BeatThePokemon.Context.Interfaces
     public interface IAccountContext
     {
         bool Create(Account account);
+        Account GetById(int id);
         Account GetByNaam(string naam);
+        List<Pokemon> GetAllPokemonOfUser(int id);
 
         //Account GetById(int id);
         //List<Account> GetAll();

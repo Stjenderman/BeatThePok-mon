@@ -1,58 +1,12 @@
-﻿@using BeatThePokemon.Models
-@using Type = System.Type
-@model BeatThePokemon.Models.ViewModels.PokemonCreateViewModel;
+﻿
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<body>
-    <form class="container" accept-charset="UTF-8" role="form" enctype="multipart/form-data" method="post">
-        <h1>Create Pokemon</h1>
+<h1>Create</h1>
 
-        <div class="row">
-            <div class="col-2">
-                <label>Naam:</label>
-                <input asp-for="Naam" class="form-control" type="text">
-                <span asp-validation-for="Naam" class="text-danger"></span>
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-3">
-                <label>Type:</label>
-                <div class="btn-group-toggle" data-toggle="buttons">
-                    @foreach (Soort soort in Model.AlleSoorten)
-                    {
-                        <label class="btn">
-                            <div class="SoortButton" data-type="@Convert.ToInt32(soort.Naam)" style="background-image: url(../images/@soort.ImageNaam"></div>
-                        </label>
-                    }
-                </div>
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-md-4">
-                <label asp-for="Image"></label>
-                @Html.EditorFor(model => model.Image)
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-        </div>
-        <br />
-        @if (@Model.Type == 0)
-        {
-            <input type="hidden" asp-for="Type" id="TypeText" value="" />
-        }
-        else
-        {
-            <input type="hidden" asp-for="Type" id="TypeText" />
-        }
-
-        <div class="col-md-2">
-            <input type="submit" value="Create" asp-action="Create" />
-        </div>
-    </form>
-</body>
-
+<form>
+    <input type="submit" value="Create Pokémon" asp-action="CreatePokemon"/>
+    <input type="submit" value="Create Aanval" asp-action="CreateAanval"/>
+</form>

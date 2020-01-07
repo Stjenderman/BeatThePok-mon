@@ -88,6 +88,7 @@ body {
     .SoortButton:hover {
         border: 1px solid;
     }
+
 /*Css voor pokemon view pagina*/
 .table-pokemon {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -234,4 +235,24 @@ body {
 
 .health-bar-2 {
     background-color: aqua;
+}
+
+.gevecht-pokemon-img {
+    height: 170px;
+}
+
+/*Css voor new game*/
+.choose-image {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+    .choose-image:hover {
+        border: 1px solid;
+    }
+
+.confirm-btn {
+    display: none;
 }
