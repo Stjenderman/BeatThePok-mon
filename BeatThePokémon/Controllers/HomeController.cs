@@ -42,7 +42,7 @@ namespace BeatThePokémon.Controllers
 
             PokemonNewGameConvert pngc = new PokemonNewGameConvert();
             List<int> allIds = homeRepo.GetAllId();
-            List<int> randomInts = homeRepo.DrieRandNum(allIds);
+            List<int> randomInts = homeRepo.XRandNum(allIds, 3);
             List<Pokemon> randomPok = homeRepo.GetPokemonWithIds(randomInts);
             NewGameViewModel ngvm = pngc.PokemonToNewGame(randomPok);
             return View(ngvm);

@@ -162,5 +162,42 @@ namespace BeatThePokemon.Context.MSSQL
 
             return a;
         }
+
+        public Aanval GetById(int Id)
+        {
+            Aanval a = new Aanval();
+            string query =
+                "SELECT * " +
+                "FROM Aanval a " +
+                "INNER JOIN Soort soa " +
+                "ON a.Soort = soa.NaamId " +
+                "WHERE a.Id = @Id";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connstring))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Soort s = new Soort((Soort.TypeSoorten)reader["NaamId"], reader["ImageNaam"].ToString());
+                            a = new Aanval((int)reader["Id"], reader["Naam"].ToString(), (int)reader["MaxPP"], (int)reader["Accuratie"], (int)reader["Power"], s);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return a;
+        }
     }
 }

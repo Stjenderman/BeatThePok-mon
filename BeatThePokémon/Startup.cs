@@ -41,6 +41,9 @@ namespace BeatThePokemon
             services.AddTransient<IAanvalContext, AanvalContext>();
             services.AddScoped<AanvalRepo>();
 
+            services.AddTransient<IGevechtContext, GevechtContext>();
+            services.AddScoped<GevechtRepo>();
+
             services.AddSession();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();

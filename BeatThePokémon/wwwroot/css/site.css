@@ -229,14 +229,6 @@ body {
         }
 
 /*Css voor gevecht*/
-.health-bar-1 {
-    background-color: chartreuse;
-}
-
-.health-bar-2 {
-    background-color: aqua;
-}
-
 .gevecht-pokemon-img {
     height: 170px;
 }
@@ -255,4 +247,11 @@ body {
 
 .confirm-btn {
     display: none;
+}
+
+/*Css voor aanval knoppen*/
+.btn-aanval {
+    background-color: lightgray;
+    width: 100%;
+    height: 250px;
 }

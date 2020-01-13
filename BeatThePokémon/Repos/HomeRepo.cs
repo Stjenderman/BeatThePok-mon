@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BeatThePokemon.Repos
 {
-    public class HomeRepo
+    public class HomeRepo : BaseRepo
     {
         private IHomeContext hCtx;
         private IPokemonContext pCtx;
@@ -18,27 +18,14 @@ namespace BeatThePokemon.Repos
             this.pCtx = pContext;
         }
 
-        public List<int> DrieRandNum(List<int> mogelijkeNummers)
-        {
-            List<int> drieRandNum = new List<int>();
-            Random random = new Random(Guid.NewGuid().GetHashCode());
-
-            while (drieRandNum.Count < 3)
-            {
-                int randomPos = random.Next(0, mogelijkeNummers.Count);
-                int nieuwInt = mogelijkeNummers[randomPos];
-                if (!drieRandNum.Contains(nieuwInt))
-                {
-                    drieRandNum.Add(nieuwInt);
-                }
-            }
-
-            return drieRandNum;
-        }
-
         public List<int> GetAllId()
         {
             return hCtx.GetAllId();
+        }
+        
+        public bool LinkPokemonToAccount(int pokeId, int accId)
+        {
+            return hCtx.LinkPokemonToAccount(pokeId, accId, ReturnHp());
         }
 
         public List<Pokemon> GetPokemonWithIds(List<int> ids)
@@ -49,36 +36,6 @@ namespace BeatThePokemon.Repos
                 pokemon.Add(pCtx.GetById(i));
             }
             return pokemon;
-        }
-
-        public bool LinkPokemonToAccount(int pokeId, int accId)
-        {
-            return hCtx.LinkPokemonToAccount(pokeId, accId, ReturnHp());
-        }
-
-        public int ReturnHp()
-        {
-            Random rand = new Random();
-            int randNum = rand.Next(1,7);
-            switch (randNum)
-            {
-                case 1:
-                    {
-                        return (int)HpValues.High;
-                    }
-                case 2:
-                case 3:
-                case 4:
-                    {
-                        return (int)HpValues.Normal;
-                    }
-                case 5:
-                case 6:
-                    {
-                        return (int)HpValues.Low;
-                    }
-            }
-            return -1;
         }
     }
 }

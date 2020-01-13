@@ -5,30 +5,56 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .health-bar-gebruiker {
+        background-color: chartreuse;
+        width: 0px;
+        width: @((int)((double)Model.GebruikerPokemon.HP/(double)Model.GebruikerPokemon.MaxHP*380))px;
+        height: 23px;
+    }
+
+    .health-bar-tegenstander {
+        background-color: aqua;
+        width: 0px;
+        width: @((int)((double)Model.TegenstanderPokemon.HP/(double)Model.TegenstanderPokemon.MaxHP*380))px;
+        height: 23px;
+    }
+
+    .health-bar {
+        width: 382px;
+        border: solid 1px black;
+        height: 25px;
+    }
+</style>
+
 <div class="container-fluid div-gevecht-pok1 row">
     <div class="offset-md-8 col-md-3">
-        <img src="~/images/FireIcon.png">
+        <img class="gevecht-pokemon-img" src="data:image/png;base64, @Model.TegenstanderPokemon.Image">
     </div>
 </div>
 <div class="container-fluid div-gevecht-health row">
-    <div class="offset-md-2 col-md-3 health-bar-1">
+    <div class="offset-md-2 health-bar">
+        <div class="health-bar-gebruiker">
 
+        </div>
     </div>
-    <div class="offset-md-8 col-md-3 health-bar-2">
+    <div class="offset-md-8 health-bar">
+        <div class="health-bar-tegenstander">
 
+        </div>
     </div>
 </div>
 <div class="container-fluid div-gevecht-pok2 row">
     <div class="offset-md-2 col-md-3">
-        <img class="gevecht-pokemon-img" src="data:image/png;base64, @Model.AccountPokemon[0].Image">
+        <img class="gevecht-pokemon-img" src="data:image/png;base64, @Model.GebruikerPokemon.Image">
     </div>
 </div>
 
 <div class="container-fluid div-gevecht-knoppen row">
     <form class="col-md-6 knop" asp-controller="Gevecht" asp-action="Aanvallen" method="get">
-        <input type="submit" class="btn" value="Aanvallen" />
+        <button class="btn" name="pokId" value="@Model.GebruikerPokemon.Id">Aanvallen</button>
     </form>
     <form class="col-md-6 knop">
-        <input type="submit" class="btn" value="Inventory" asp-controller="Gevecht" asp-action="Aanvallen" />
+        <input type="submit" class="btn" value="Inventory" />
     </form>
 </div>

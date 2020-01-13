@@ -141,7 +141,7 @@ namespace BeatThePokemon.Context.MSSQL
                         while (reader.Read())
                         {
                             Soort s = new Soort((Soort.TypeSoorten)reader["NaamId"], reader["ImageNaam"].ToString());
-                            Pokemon p = new Pokemon((int)reader["Id"], reader["Naam"].ToString(), s, null, (HpValues)reader["MaxHP"], (int)reader["HP"], (byte[])reader["Uiterlijk"]);
+                            Pokemon p = new Pokemon((int)reader["Id"], (int)reader["GebruikerTeamId"], reader["Naam"].ToString(), s, null, (HpValues)reader["MaxHP"], (int)reader["HP"], (byte[])reader["Uiterlijk"]);
                             pokemonList.Add(p);
                         }
                     }

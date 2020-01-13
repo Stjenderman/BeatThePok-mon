@@ -1,4 +1,4 @@
-﻿
+﻿@model BeatThePokemon.Models.ViewModels.AanvallenGevechtViewModel
 @{
     ViewData["Title"] = "Aanvallen";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +6,11 @@
 
 <h1>Aanvallen</h1>
 
+<form class="row" asp-action="VoerAanvalUit">
+    @foreach (var a in Model.Aanvallen)
+    {
+        <div class="col-md-6">
+            <button value="@a.Id" name="aanvalId" class="btn-aanval">@a.Naam</button>
+        </div>
+    }
+</form>

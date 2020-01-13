@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BeatThePokemon.Models;
 using BeatThePokemon.Models.Convert;
 using BeatThePokemon.Models.ViewModels;
 using BeatThePokemon.Repos;
@@ -13,9 +14,14 @@ namespace BeatThePokémon.Controllers
     public class GevechtController : Controller
     {
         private AccountRepo accountRepo;
-        public GevechtController(AccountRepo arepo)
+        private GevechtRepo gevechtRepo;
+        private AanvalRepo aanvalRepo;
+
+        public GevechtController(AccountRepo acrepo, GevechtRepo grepo, AanvalRepo anrepo)
         {
-            accountRepo = arepo;
+            this.accountRepo = acrepo;
+            this.gevechtRepo = grepo;
+            this.aanvalRepo = anrepo;
         }
 
         [HttpGet]
@@ -27,18 +33,45 @@ namespace BeatThePokémon.Controllers
             {
                 return RedirectToAction("NewGame", "Home");
             }
+
+            int userId = (int)HttpContext.Session.GetInt32("AccountID");
+
+            if (!gevechtRepo.GevechtExists(userId))
+            {
+                gevechtRepo.CreateGevecht(accountRepo.GetUserById(userId));
+            }
+
             AccountGevechtConvert agc = new AccountGevechtConvert();
-            GevechtViewModel gvm = agc.AccountToGevecht(accountRepo.GetUserById((int)HttpContext.Session.GetInt32("AccountID")));
+            Pokemon GebruikerPokemon = gevechtRepo.GetGebruikerPokemonByTeamId(gevechtRepo.GetGebruikerTeamId(userId));
+            Pokemon TegenstanderPokemon = gevechtRepo.GetTegenstanderPokemonByTeamId(gevechtRepo.GetTegenstanderTeamId(userId));
+            GevechtViewModel gvm = agc.AccountToGevecht(GebruikerPokemon, TegenstanderPokemon);
 
             return View(gvm);
         }
-         
+
         [HttpGet]
-        public IActionResult Aanvallen()
+        public IActionResult Aanvallen(int pokId)
         {
             if (HttpContext.Session.GetInt32("AccountID") == null) { return RedirectToAction("Login", "Account"); }
 
-            return View();
+            AanvallenGevechtViewModel agvm = new AanvallenGevechtViewModel();
+            agvm.Aanvallen = aanvalRepo.GetAllByPokemon(pokId);
+
+            return View(agvm);
+        }
+
+        [HttpPost]
+        public IActionResult VoerAanvalUit(int aanvalId)
+        {
+            int userId = (int)HttpContext.Session.GetInt32("AccountID");
+            int tegenstanderId = gevechtRepo.GetTegenstanderIdWithUserId(userId);
+
+            Account a = accountRepo.GetUserById(userId);
+            a.Tegenstander = gevechtRepo.GetById(tegenstanderId);
+            gevechtRepo.VoerGebruikerAanvalUit(aanvalId, a);
+            gevechtRepo.VoerTegenstanderAanvalUit(a);
+
+            return RedirectToAction("Index");
         }
     }
 }

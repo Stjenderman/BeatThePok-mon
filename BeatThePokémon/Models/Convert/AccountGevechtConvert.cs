@@ -8,17 +8,16 @@ namespace BeatThePokemon.Models.Convert
 {
     public class AccountGevechtConvert
     {
-        public GevechtViewModel AccountToGevecht(Account a)
+        public GevechtViewModel AccountToGevecht(Pokemon gebruikerPokemon, Pokemon tegenstanderPokemon)
         {
-            GevechtViewModel listgvm = new GevechtViewModel();
-            foreach (Pokemon p in a.Pokemon)
-            {
-                GevechtViewModel tempgvm = new GevechtViewModel();
-                tempgvm.Pokemon = p;
-                tempgvm.Image = System.Convert.ToBase64String(p.Uiterlijk);
-                listgvm.AccountPokemon.Add(tempgvm);
-            }
-            return listgvm;
+            GevechtViewModel gvm = new GevechtViewModel();
+            gebruikerPokemon.Image = System.Convert.ToBase64String(gebruikerPokemon.Uiterlijk);
+            tegenstanderPokemon.Image = System.Convert.ToBase64String(tegenstanderPokemon.Uiterlijk);
+
+            gvm.GebruikerPokemon = gebruikerPokemon;
+            gvm.TegenstanderPokemon = tegenstanderPokemon;
+
+            return gvm;
         }
     }
 }

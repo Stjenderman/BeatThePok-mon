@@ -15,12 +15,14 @@ namespace BeatThePokemon.Models
     public class Pokemon
     {
         public int Id { get; }
+        public int TeamId { get; set; }
         public string Naam { get; set; }
         public Soort Type { get; set; }
         public HpValues MaxHP { get; set; }
         public int HP { get; set; }
         public byte[] Uiterlijk { get; set; }
         public List<Aanval> Aanvallen { get; set; }
+        public string Image { get; set; }
 
         public Pokemon(string naam, Soort type, List<Aanval> aanvallen, byte[] image)
         {
@@ -55,12 +57,13 @@ namespace BeatThePokemon.Models
             this.Uiterlijk = image;
         }
 
-        public Pokemon(int id, string naam, Soort type, List<Aanval> aanvallen, HpValues maxhp, int hp, byte[] image)
+        public Pokemon(int id, int teamId, string naam, Soort type, List<Aanval> aanvallen, HpValues maxhp, int hp, byte[] image)
         {
             this.Aanvallen = new List<Aanval>();
 
             this.Aanvallen = aanvallen;
             this.Id = id;
+            this.TeamId = teamId;
             this.Naam = naam;
             this.Type = type;
             this.MaxHP = maxhp;

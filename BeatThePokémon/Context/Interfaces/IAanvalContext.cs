@@ -11,5 +11,7 @@ namespace BeatThePokemon.Context.Interfaces
         bool Create(Aanval aanval);
         List<Aanval> GetAll();
         Aanval GetByName(string naam);
+        List<Aanval> GetAllByPokemon(int id);
+        Aanval GetById(int id);
     }
 }

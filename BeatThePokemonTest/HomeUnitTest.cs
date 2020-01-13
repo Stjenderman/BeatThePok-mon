@@ -15,6 +15,9 @@ namespace BeatThePokemonTest
         {
             //arrange
             List<int> mogelijkeNummers = new List<int>();
+
+            int aantlNummersAlsResultaat = 4;
+
             for (int i = 23; i <= 26; i++)
             {
                 mogelijkeNummers.Add(i);
@@ -26,15 +29,19 @@ namespace BeatThePokemonTest
             HomeRepo hr = new HomeRepo(homectx, pokectx);
 
             //act
-            List<int> resultaat = hr.DrieRandNum(mogelijkeNummers);
-            int int1 = resultaat[0];
-            int int2 = resultaat[1];
-            int int3 = resultaat[2];
+            List<int> resultaat = hr.XRandNum(mogelijkeNummers, aantlNummersAlsResultaat);
 
             //assert
-            Assert.AreNotEqual(int1, int2);
-            Assert.AreNotEqual(int2, int3);
-            Assert.AreNotEqual(int1, int3);
+            for (int i = 0; i < resultaat.Count; i++)
+            {
+                for (int j = 0; j < resultaat.Count; j++)
+                {
+                    if(i != j)
+                    {
+                        Assert.AreNotEqual(resultaat[i], resultaat[j]);
+                    }
+                }
+            }
         }
 
         //test of je een random getal krijgt

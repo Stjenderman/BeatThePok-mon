@@ -7,13 +7,12 @@ namespace BeatThePokemon.Models.ViewModels
 {
     public class GevechtViewModel
     {
-        public List<GevechtViewModel> AccountPokemon { get; set; }
-        public Pokemon Pokemon { get; set; }
-        public string Image { get; set; }
+        public Pokemon GebruikerPokemon { get; set; }
+        public Pokemon TegenstanderPokemon { get; set; }
 
         public GevechtViewModel()
         {
-            AccountPokemon = new List<GevechtViewModel>();
+            
         }
     }
 }

@@ -29,5 +29,10 @@ namespace BeatThePokemon.Repos
         {
             return ctx.GetByName(naam);
         }
+
+        public List<Aanval> GetAllByPokemon(int pokId)
+        {
+            return ctx.GetAllByPokemon(pokId);
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace BeatThePokemon.Models
         public string Wachtwoord { get; set; }
         public string Email { get; set; }
         public List<Pokemon> Pokemon { get; set; }
+        public Tegenstander Tegenstander { get; set; }
 
         public Account(int id, string gebruikersnaam, string wachtwoord, string email, List<Pokemon> pokemon)
         {
