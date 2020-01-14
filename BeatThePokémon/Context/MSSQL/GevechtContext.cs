@@ -52,7 +52,7 @@ namespace BeatThePokemon.Context.MSSQL
             return ids;
         }
 
-        public Tegenstander GetById(int id)
+        public Tegenstander GetById(int id, int gebruikerId)
         {
             Tegenstander t = new Tegenstander();
             string query =
@@ -79,7 +79,7 @@ namespace BeatThePokemon.Context.MSSQL
                     }
                     conn.Close();
 
-                    t.Pokemon = GetAllPokemonOfTegenstander(t.Id);
+                    t.Pokemon = GetAllPokemonOfTegenstander(t.Id, gebruikerId);
                 }
             }
             catch (Exception e)
@@ -128,10 +128,14 @@ namespace BeatThePokemon.Context.MSSQL
             return true;
         }
 
-        public List<Pokemon> GetAllPokemonOfTegenstander(int id)
+        public List<Pokemon> GetAllPokemonOfTegenstander(int tegenstanderId, int gebruikerId)
         {
             string query =
-                "SELECT * FROM dbo.Pokémon p INNER JOIN dbo.TegenstanderGebruikerPokemon tgp ON p.Id = tgp.PokemonId INNER JOIN dbo.Soort s ON p.Soort = s.NaamId WHERE tgp.TegenstanderId = @Id";
+                "SELECT * FROM dbo.Pokémon p " +
+                "INNER JOIN dbo.TegenstanderGebruikerPokemon tgp ON p.Id = tgp.PokemonId " +
+                "INNER JOIN dbo.Soort s ON p.Soort = s.NaamId " +
+                "WHERE tgp.TegenstanderId = @TegenstanderId " +
+                "AND tgp.GebruikerId = @GebruikerId";
 
             List<Pokemon> pokemonList = new List<Pokemon>();
 
@@ -143,7 +147,8 @@ namespace BeatThePokemon.Context.MSSQL
                     SqlCommand cmd = new SqlCommand(query, conn);
                     using (cmd)
                     {
-                        cmd.Parameters.AddWithValue("@Id", id);
+                        cmd.Parameters.AddWithValue("@TegenstanderId", tegenstanderId);
+                        cmd.Parameters.AddWithValue("@GebruikerId", gebruikerId);
                     }
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -423,11 +428,11 @@ namespace BeatThePokemon.Context.MSSQL
 
             try
             {
-                using(SqlConnection conn = new SqlConnection(_connstring))
+                using (SqlConnection conn = new SqlConnection(_connstring))
                 {
                     conn.Open();
 
-                    using(SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@HP", nieuwHp);
                         cmd.Parameters.AddWithValue("@TeamId", teamId);
@@ -481,16 +486,16 @@ namespace BeatThePokemon.Context.MSSQL
 
             try
             {
-                using(SqlConnection conn = new SqlConnection(_connstring))
+                using (SqlConnection conn = new SqlConnection(_connstring))
                 {
                     conn.Open();
-                    using(SqlCommand cmd = new SqlCommand(query,conn))
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@GebruikerId", gebruikerId);
 
-                        using(SqlDataReader reader = cmd.ExecuteReader())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            if(reader.HasRows)
+                            if (reader.HasRows)
                             {
                                 return true;
                             }
@@ -507,6 +512,96 @@ namespace BeatThePokemon.Context.MSSQL
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public bool DeleteAllNewGameData(int gebruikerId)
+        {
+            if (DeleteAllGevechtData(gebruikerId) && DeleteAllTegenstanderData(gebruikerId))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool DeleteAllGevechtData(int gebruikerId)
+        {
+            string query = "DELETE FROM dbo.Gevecht WHERE GebruikerId = @GebruikerId";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connstring))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@GebruikerId", gebruikerId);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return true;
+        }
+
+        private bool DeleteAllTegenstanderData(int gebruikerId)
+        {
+            string query = "DELETE FROM dbo.TegenstanderGebruikerPokemon WHERE GebruikerId = @GebruikerId";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connstring))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@GebruikerId", gebruikerId);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return true;
+        }
+
+        public bool RestoreAllHpOfGebruiker(List<Pokemon> gebruikerPokemon, int gebruikerId)
+        {
+            string query = "UPDATE dbo.GebruikerPokémon SET HP = @HP WHERE GebruikerId = @GebruikerId AND PokémonId = @PokemonId";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connstring))
+                {
+                    foreach (var p in gebruikerPokemon)
+                    {
+                        conn.Open();
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@HP", p.MaxHP);
+                            cmd.Parameters.AddWithValue("@GebruikerId", gebruikerId);
+                            cmd.Parameters.AddWithValue("@PokemonId", p.Id);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return true;
         }
     }
 }

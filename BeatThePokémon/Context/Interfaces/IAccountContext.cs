@@ -12,7 +12,7 @@ namespace BeatThePokemon.Context.Interfaces
         Account GetById(int id);
         Account GetByNaam(string naam);
         List<Pokemon> GetAllPokemonOfUser(int id);
-
+        bool DeleteAllPokemonOfUser(int gebruikerId);
         //Account GetById(int id);
         //List<Account> GetAll();
         //bool Update(Account account);

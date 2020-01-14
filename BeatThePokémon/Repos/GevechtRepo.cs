@@ -12,14 +12,16 @@ namespace BeatThePokemon.Repos
         private IGevechtContext gCtx;
         private IPokemonContext pCtx;
         private IHomeContext hCtx;
-        private IAanvalContext aCtx;
+        private IAanvalContext anCtx;
+        private IAccountContext acCtx;
 
-        public GevechtRepo(IGevechtContext gContext, IPokemonContext pContext, IHomeContext hContext, IAanvalContext aContext)
+        public GevechtRepo(IGevechtContext gContext, IPokemonContext pContext, IHomeContext hContext, IAanvalContext anContext,IAccountContext acContext)
         {
             this.gCtx = gContext;
             this.pCtx = pContext;
             this.hCtx = hContext;
-            this.aCtx = aContext;
+            this.anCtx = anContext;
+            this.acCtx = acContext;
         }
 
         public bool CreateTegenstander(Account account)
@@ -44,9 +46,9 @@ namespace BeatThePokemon.Repos
             return gCtx.GetTegenstanderIdWithUserId(userId);
         }
 
-        public Tegenstander GetById(int id)
+        public Tegenstander GetById(int id, int gebruikerId)
         {
-            return gCtx.GetById(id);
+            return gCtx.GetById(id, gebruikerId);
         }
 
         public List<Pokemon> GetPokemonWithIds(List<int> ids)
@@ -63,7 +65,7 @@ namespace BeatThePokemon.Repos
         {
             int tegenstanderTeamId = GetTegenstanderTeamId(a.Id);
             int hp = GetTegenstanderPokemonHpByTeamId(tegenstanderTeamId);
-            Aanval aanval = aCtx.GetById(aanvalId);
+            Aanval aanval = anCtx.GetById(aanvalId);
             int nieuwHp = GetRandomNewHp(hp, aanval);
 
             return gCtx.UpdateHpTegenstander(nieuwHp, tegenstanderTeamId);
@@ -97,12 +99,12 @@ namespace BeatThePokemon.Repos
         public int NewHp(int oudeHp, Aanval a, int randGetal)
         {
             int nieuweHp = -1;
-            
-            if(randGetal <= a.Accuratie - 10)
+
+            if (randGetal <= a.Accuratie - 10)
             {
                 nieuweHp = oudeHp - a.Power;
             }
-            else if(randGetal >= 90)
+            else if (randGetal >= 90)
             {
                 nieuweHp = oudeHp - (a.Power * 2);
             }
@@ -112,6 +114,18 @@ namespace BeatThePokemon.Repos
             }
 
             return nieuweHp;
+        }
+
+        public bool CheckIfAllPokemonFainted(List<Pokemon> pokemon)
+        {
+            foreach (var p in pokemon)
+            {
+                if (p.HP > 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public int GetTegenstanderTeamId(int gebruikerId)
@@ -139,16 +153,33 @@ namespace BeatThePokemon.Repos
             return gCtx.GetTegenstanderPokemonHpByTeamId(teamId);
         }
 
+        public List<Pokemon> GetAllPokemonOfTegenstander(int tegenstanderId, int gebruikerId)
+        {
+            return gCtx.GetAllPokemonOfTegenstander(tegenstanderId, gebruikerId);
+        }
+
         public bool CreateGevecht(Account account)
         {
             CreateTegenstander(account);
             int tegenstanderId = GetTegenstanderIdWithUserId(account.Id);
-            return gCtx.CreateGevecht(account, GetById(tegenstanderId));
+            return gCtx.CreateGevecht(account, GetById(tegenstanderId, account.Id));
         }
 
         public bool GevechtExists(int gebruikerId)
         {
             return gCtx.GevechtExists(gebruikerId);
+        }
+
+        public bool StartNewGevecht(int gebruikerId)
+        {
+            List<Pokemon> allePokemon = new List<Pokemon>();
+            allePokemon = acCtx.GetAllPokemonOfUser(gebruikerId);
+            return gCtx.DeleteAllNewGameData(gebruikerId) && gCtx.RestoreAllHpOfGebruiker(allePokemon, gebruikerId);
+        }
+
+        public bool StartNieuwGame(int gebruikerId)
+        {
+            return StartNewGevecht(gebruikerId) && acCtx.DeleteAllPokemonOfUser(gebruikerId);
         }
     }
 }

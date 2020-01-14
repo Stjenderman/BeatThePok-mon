@@ -14,12 +14,22 @@ namespace BeatThePokemon.Context.Test
             throw new NotImplementedException();
         }
 
+        public bool DeleteAllNewGameData(int gebruikerId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<int> GetAllId()
         {
             throw new NotImplementedException();
         }
 
-        public Tegenstander GetById(int id)
+        public List<Pokemon> GetAllPokemonOfTegenstander(int tegenstanderId, int gebruikerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Tegenstander GetById(int id, int gebruikerId)
         {
             throw new NotImplementedException();
         }
@@ -60,6 +70,11 @@ namespace BeatThePokemon.Context.Test
         }
 
         public bool LinkTegenstanderAanGevecht(int tegenstanderId, int accountId, List<Pokemon> pokemon)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RestoreAllHpOfGebruiker(List<Pokemon> gebruikerPokemon, int gebruikerId)
         {
             throw new NotImplementedException();
         }

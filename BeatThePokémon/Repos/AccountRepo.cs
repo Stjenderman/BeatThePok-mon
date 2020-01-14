@@ -48,9 +48,9 @@ namespace BeatThePokemon.Repos
             return ctx.GetById(accId);
         }
 
-        //public Account GetById()
-        //public List<Account> GetAll()
-        //public bool Update()
-        //public bool Delete()
+        public List<Pokemon> GetAllPokemonOfUser(int gebruikerId)
+        {
+            return ctx.GetAllPokemonOfUser(gebruikerId);
+        }
     }
 }

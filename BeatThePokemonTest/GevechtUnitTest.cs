@@ -20,9 +20,10 @@ namespace BeatThePokemonTest
             IGevechtContext gctx = new GevechtTestContext();
             IPokemonContext pctx = new PokemonTestContext();
             IHomeContext hctx = new HomeTestContext();
-            IAanvalContext actx = new AanvalTestContext();
+            IAanvalContext anctx = new AanvalTestContext();
+            IAccountContext acctx = new AccountTestContext();
 
-            GevechtRepo gr = new GevechtRepo(gctx, pctx, hctx, actx);
+            GevechtRepo gr = new GevechtRepo(gctx, pctx, hctx, anctx, acctx);
 
             int oudeHp = 100;
             Aanval aanval = new Aanval(1, "Water Pulse", 20, 20, 50, 80, new Soort(Soort.TypeSoorten.Water, "WaterIcon.png"));

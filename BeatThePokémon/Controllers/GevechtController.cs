@@ -36,6 +36,17 @@ namespace BeatThePokémon.Controllers
 
             int userId = (int)HttpContext.Session.GetInt32("AccountID");
 
+            if (gevechtRepo.CheckIfAllPokemonFainted(gevechtRepo.GetAllPokemonOfTegenstander(gevechtRepo.GetTegenstanderIdWithUserId(userId), userId)))
+            {
+                gevechtRepo.StartNewGevecht(userId);
+            }
+
+            if (gevechtRepo.CheckIfAllPokemonFainted(accountRepo.GetAllPokemonOfUser(userId)))
+            {
+                gevechtRepo.StartNieuwGame(userId);
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!gevechtRepo.GevechtExists(userId))
             {
                 gevechtRepo.CreateGevecht(accountRepo.GetUserById(userId));
@@ -67,7 +78,7 @@ namespace BeatThePokémon.Controllers
             int tegenstanderId = gevechtRepo.GetTegenstanderIdWithUserId(userId);
 
             Account a = accountRepo.GetUserById(userId);
-            a.Tegenstander = gevechtRepo.GetById(tegenstanderId);
+            a.Tegenstander = gevechtRepo.GetById(tegenstanderId, userId);
             gevechtRepo.VoerGebruikerAanvalUit(aanvalId, a);
             gevechtRepo.VoerTegenstanderAanvalUit(a);
 

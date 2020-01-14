@@ -162,5 +162,33 @@ namespace BeatThePokemon.Context.MSSQL
 
             return pokemonList;
         }
+
+        public bool DeleteAllPokemonOfUser(int gebruikerId)
+        {
+            string query = "DELETE FROM dbo.GebruikerPokémon WHERE GebruikerId = @GebruikerId";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_connstring))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    using (cmd)
+                    {
+                        cmd.Parameters.AddWithValue("@GebruikerId", gebruikerId);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return true;
+        }
     }
 }
