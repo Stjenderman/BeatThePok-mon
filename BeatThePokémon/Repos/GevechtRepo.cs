@@ -64,7 +64,7 @@ namespace BeatThePokemon.Repos
         public bool VoerGebruikerAanvalUit(int aanvalId, Account a)
         {
             int tegenstanderTeamId = GetTegenstanderTeamId(a.Id);
-            int hp = GetTegenstanderPokemonHpByTeamId(tegenstanderTeamId);
+            int hp = GetTegenstanderPokemonByTeamId(tegenstanderTeamId).HP;
             Aanval aanval = anCtx.GetById(aanvalId);
             int nieuwHp = GetRandomNewHp(hp, aanval);
 
@@ -148,11 +148,6 @@ namespace BeatThePokemon.Repos
             return gCtx.GetTegenstanderPokemonByTeamId(teamId);
         }
 
-        public int GetTegenstanderPokemonHpByTeamId(int teamId)
-        {
-            return gCtx.GetTegenstanderPokemonHpByTeamId(teamId);
-        }
-
         public List<Pokemon> GetAllPokemonOfTegenstander(int tegenstanderId, int gebruikerId)
         {
             return gCtx.GetAllPokemonOfTegenstander(tegenstanderId, gebruikerId);
@@ -177,7 +172,7 @@ namespace BeatThePokemon.Repos
             return gCtx.DeleteAllNewGameData(gebruikerId) && gCtx.RestoreAllHpOfGebruiker(allePokemon, gebruikerId);
         }
 
-        public bool StartNieuwGame(int gebruikerId)
+        public bool StartNewGame(int gebruikerId)
         {
             return StartNewGevecht(gebruikerId) && acCtx.DeleteAllPokemonOfUser(gebruikerId);
         }

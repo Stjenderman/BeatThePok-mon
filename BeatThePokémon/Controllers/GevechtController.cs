@@ -43,7 +43,7 @@ namespace BeatThePokémon.Controllers
 
             if (gevechtRepo.CheckIfAllPokemonFainted(accountRepo.GetAllPokemonOfUser(userId)))
             {
-                gevechtRepo.StartNieuwGame(userId);
+                gevechtRepo.StartNewGame(userId);
                 return RedirectToAction("Index", "Home");
             }
 

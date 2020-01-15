@@ -13,7 +13,6 @@ namespace BeatThePokemon.Context.Interfaces
         bool LinkTegenstanderAanGevecht(int tegenstanderId, int accountId, List<Pokemon> pokemon);
         int GetTegenstanderIdWithUserId(int userId);
         bool CreateGevecht(Account account, Tegenstander tegenstander);
-        int GetTegenstanderPokemonHpByTeamId(int teamId);
         int GetTegenstanderTeamId(int gebruikerId);
         List<Pokemon> GetAllPokemonOfTegenstander(int tegenstanderId, int gebruikerId);
         bool UpdateHpTegenstander(int nieuwHp, int teamId);
