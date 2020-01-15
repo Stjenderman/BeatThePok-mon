@@ -5,12 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BeatThePokémon.Models;
+using ModelLibrary.Models;
 using Microsoft.AspNetCore.Http;
 using BeatThePokemon.Repos;
 using BeatThePokemon.Models.Convert;
 using BeatThePokemon.Models.ViewModels;
-using BeatThePokemon.Models;
 
 namespace BeatThePokémon.Controllers
 {

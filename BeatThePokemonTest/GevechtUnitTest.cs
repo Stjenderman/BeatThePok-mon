@@ -1,6 +1,6 @@
 ﻿using BeatThePokemon.Context.Interfaces;
 using BeatThePokemon.Context.Test;
-using BeatThePokemon.Models;
+using ModelLibrary.Models;
 using BeatThePokemon.Repos;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

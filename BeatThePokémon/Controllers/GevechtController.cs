@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BeatThePokemon.Models;
+using ModelLibrary.Models;
 using BeatThePokemon.Models.Convert;
 using BeatThePokemon.Models.ViewModels;
 using BeatThePokemon.Repos;

@@ -1,5 +1,5 @@
 ﻿using BeatThePokemon.Context.Interfaces;
-using BeatThePokemon.Models;
+using ModelLibrary.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BeatThePokemon.Context.Interfaces;
-using BeatThePokemon.Models;
+using ModelLibrary.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 

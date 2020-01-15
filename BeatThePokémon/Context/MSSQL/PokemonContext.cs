@@ -1,5 +1,4 @@
-﻿using BeatThePokemon.Models;
-using BeatThePokemon.Models.ViewModels;
+﻿using ModelLibrary.Models;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;

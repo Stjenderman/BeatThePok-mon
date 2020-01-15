@@ -1,5 +1,5 @@
 ﻿using BeatThePokemon.Context.Interfaces;
-using BeatThePokemon.Models;
+using ModelLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

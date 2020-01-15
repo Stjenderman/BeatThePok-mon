@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using BeatThePokemon.Models.ViewModels;
+using ModelLibrary.Models;
 
 namespace BeatThePokemon.Models.Convert
 {
