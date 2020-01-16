@@ -39,7 +39,7 @@ namespace BeatThePokemon.Controllers
             if (HttpContext.Session.GetInt32("AccountID") == null) { return RedirectToAction("Login", "Account"); }
 
             PokemonCreateViewModel pcvm = new PokemonCreateViewModel();
-            pcvm.AlleSoorten = soortRepo.GetAll();
+            pcvm.AlleSoorten = SoortViewModelConvert.SoortListToViewModelList(soortRepo.GetAll());
             return View(pcvm);
 
         }
@@ -51,12 +51,12 @@ namespace BeatThePokemon.Controllers
             if (ModelState.IsValid)
             {
                 PokemonCreateConvert pcc = new PokemonCreateConvert();
-                pcvm.ToeTeVoegenAanval = aanvalRepo.GetByName(pcvm.NaamAanval);
+                pcvm.ToeTeVoegenAanval = AanvalViewModelConvert.AanvalToViewModel(aanvalRepo.GetByName(pcvm.NaamAanval));
                 Pokemon p = pcc.CreateToPokemon(pcvm);
                 pokemonRepo.Create(p);
                 return RedirectToAction("AllePokemon");
             }
-            pcvm.AlleSoorten = soortRepo.GetAll();
+            pcvm.AlleSoorten = SoortViewModelConvert.SoortListToViewModelList(soortRepo.GetAll());
             return View(pcvm);
         }
 
@@ -66,7 +66,7 @@ namespace BeatThePokemon.Controllers
             if (HttpContext.Session.GetInt32("AccountID") == null) { return RedirectToAction("Login", "Account"); }
 
             AanvalCreateViewModel acvm = new AanvalCreateViewModel();
-            acvm.AlleSoorten = soortRepo.GetAll();
+            acvm.AlleSoorten = SoortViewModelConvert.SoortListToViewModelList(soortRepo.GetAll());
             return View(acvm);
         }
 
@@ -75,7 +75,7 @@ namespace BeatThePokemon.Controllers
         {
             AanvalCreateConvert acc = new AanvalCreateConvert();
             aanvalRepo.Create(acc.CreateToAanval(acvm));
-            acvm.AlleSoorten = soortRepo.GetAll();
+            acvm.AlleSoorten = SoortViewModelConvert.SoortListToViewModelList(soortRepo.GetAll());
             return View(acvm);
         }
 

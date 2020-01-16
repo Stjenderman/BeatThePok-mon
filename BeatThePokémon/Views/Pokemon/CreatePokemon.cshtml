@@ -1,4 +1,4 @@
-﻿@using BeatThePokemon.Models
+﻿@using BeatThePokemon.Models.ViewModels
 @using Type = System.Type
 @model BeatThePokemon.Models.ViewModels.PokemonCreateViewModel;
 @{
@@ -52,7 +52,7 @@
             <div class="col-3">
                 <label>Type:</label>
                 <div class="btn-group-toggle" data-toggle="buttons">
-                    @foreach (Soort soort in Model.AlleSoorten)
+                    @foreach (SoortViewModel soort in Model.AlleSoorten)
                     {
                         <label class="btn">
                             <div class="SoortButton" data-type="@Convert.ToInt32(soort.Naam)" style="background-image: url(../images/@soort.ImageNaam" )></div>

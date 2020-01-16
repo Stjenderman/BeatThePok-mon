@@ -10,26 +10,46 @@ namespace BeatThePokemon.Repos
     public class PokemonRepo
     {
         private readonly IPokemonContext ctx;
-        public PokemonRepo(IPokemonContext context)
+        private IAanvalContext anCtx;
+
+        public PokemonRepo(IPokemonContext context, IAanvalContext anContext)
         {
             this.ctx = context;
+            this.anCtx = anContext;
         }
 
         public bool Create(Pokemon p)
         {
             if (p.Type.Naam == 0)
             { return false; }
-            return ctx.Create(p);
+
+            int pokemonId = ctx.Create(p);
+            foreach (Aanval aanval in p.Aanvallen)
+            {
+                if(!ctx.LinkAanvalToPokemon(pokemonId, aanval.Id, aanval.MaxPP))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public Pokemon GetById(int id)
         {
-            return ctx.GetById(id);
+            Pokemon p = ctx.GetById(id);
+            p.Aanvallen = anCtx.GetAllByPokemon(p.Id);
+            return p;
         }
 
         public List<Pokemon> GetAll()
         {
-            return ctx.GetAll();
+            List<Pokemon> pokemonList = ctx.GetAll();
+            foreach (Pokemon p in pokemonList)
+            {
+                p.Aanvallen = anCtx.GetAllByPokemon(p.Id);
+            }
+            return pokemonList;
         }
 
         public bool Delete(int id)

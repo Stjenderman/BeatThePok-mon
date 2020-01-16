@@ -52,7 +52,7 @@ namespace BeatThePokémon.Controllers
                 gevechtRepo.CreateGevecht(accountRepo.GetUserById(userId));
             }
 
-            AccountGevechtConvert agc = new AccountGevechtConvert();
+            GevechtConvert agc = new GevechtConvert();
             Pokemon GebruikerPokemon = gevechtRepo.GetGebruikerPokemonByTeamId(gevechtRepo.GetGebruikerTeamId(userId));
             Pokemon TegenstanderPokemon = gevechtRepo.GetTegenstanderPokemonByTeamId(gevechtRepo.GetTegenstanderTeamId(userId));
             GevechtViewModel gvm = agc.AccountToGevecht(GebruikerPokemon, TegenstanderPokemon);
@@ -66,7 +66,7 @@ namespace BeatThePokémon.Controllers
             if (HttpContext.Session.GetInt32("AccountID") == null) { return RedirectToAction("Login", "Account"); }
 
             AanvallenGevechtViewModel agvm = new AanvallenGevechtViewModel();
-            agvm.Aanvallen = aanvalRepo.GetAllByPokemon(pokId);
+            agvm.Aanvallen = AanvalViewModelConvert.AanvalListToViewModelList(aanvalRepo.GetAllByPokemon(pokId));
 
             return View(agvm);
         }

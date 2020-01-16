@@ -39,7 +39,7 @@ namespace BeatThePokémon.Controllers
         {
             if (HttpContext.Session.GetInt32("AccountID") == null) { return RedirectToAction("Login", "Account"); }
 
-            PokemonNewGameConvert pngc = new PokemonNewGameConvert();
+            NewGameConvert pngc = new NewGameConvert();
             List<int> allIds = homeRepo.GetAllId();
             List<int> randomInts = homeRepo.XRandNum(allIds, 3);
             List<Pokemon> randomPok = homeRepo.GetPokemonWithIds(randomInts);

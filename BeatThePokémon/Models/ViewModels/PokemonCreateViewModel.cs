@@ -19,7 +19,7 @@ namespace BeatThePokemon.Models.ViewModels
         public IFormFile Image { get; set; }
         public string NaamAanval { get; set; }
         public int MaxHP { get; set; }
-        public Aanval ToeTeVoegenAanval { get; set; }
-        public List<Soort> AlleSoorten { get; set; }
+        public AanvalViewModel ToeTeVoegenAanval { get; set; }
+        public List<SoortViewModel> AlleSoorten { get; set; }
     }
 }

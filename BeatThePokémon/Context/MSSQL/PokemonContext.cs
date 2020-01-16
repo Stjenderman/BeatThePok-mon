@@ -13,15 +13,13 @@ namespace BeatThePokemon.Context.MSSQL
     public class PokemonContext : IPokemonContext
     {
         private readonly string _connstring;
-        private IConfiguration iConfig;
 
         public PokemonContext(IConfiguration configuration)
         {
             _connstring = configuration.GetConnectionString("DefaultConnection");
-            iConfig = configuration;
         }
 
-        public bool Create(Pokemon pokemon)
+        public int Create(Pokemon pokemon)
         {
             string query = "INSERT INTO dbo.Pokémon (Naam, Soort, Uiterlijk) OUTPUT INSERTED.Id VALUES (@Naam, @Soort, @Uiterlijk)";
             int pokemonId = -1;
@@ -41,15 +39,9 @@ namespace BeatThePokemon.Context.MSSQL
                         pokemonId = (int)cmd.ExecuteScalar();
                     }
 
-                    conn.Close();
-
-
-                    foreach (Aanval aanval in pokemon.Aanvallen)
-                    {
-                        LinkAanvalToPokemon(pokemonId, aanval.Id, aanval.MaxPP);
-                    }
+                    conn.Close();                    
                 }
-                return true;
+                return pokemonId;
             }
             catch (Exception e)
             {
@@ -58,7 +50,7 @@ namespace BeatThePokemon.Context.MSSQL
             }
         }
 
-        private bool LinkAanvalToPokemon(int pokId, int aanId, int maxPP)
+        public bool LinkAanvalToPokemon(int pokId, int aanId, int maxPP)
         {
             string query = "INSERT INTO dbo.AanvalPokémon (PokémonId, AanvalId, PP) VALUES (@PokémonId, @AanvalId, @PP)";
 
@@ -117,9 +109,6 @@ namespace BeatThePokemon.Context.MSSQL
                         }
                     }
                     conn.Close();
-
-                    AanvalContext a = new AanvalContext(iConfig);
-                    p.Aanvallen = a.GetAllByPokemon(p.Id);
                 }
             }
             catch (Exception e)
@@ -156,12 +145,6 @@ namespace BeatThePokemon.Context.MSSQL
                         }
                     }
                     conn.Close();
-                }
-
-                AanvalContext ac = new AanvalContext(iConfig);
-                foreach (Pokemon p in pokemonList)
-                {
-                    p.Aanvallen = ac.GetAllByPokemon(p.Id);
                 }
             }
             catch (Exception e)

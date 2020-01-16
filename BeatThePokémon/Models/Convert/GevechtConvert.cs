@@ -7,7 +7,7 @@ using ModelLibrary.Models;
 
 namespace BeatThePokemon.Models.Convert
 {
-    public class AccountGevechtConvert
+    public class GevechtConvert
     {
         public GevechtViewModel AccountToGevecht(Pokemon gebruikerPokemon, Pokemon tegenstanderPokemon)
         {

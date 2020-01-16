@@ -7,8 +7,8 @@ namespace ModelLibrary.Models
 {
     public class Tegenstander
     {
-        public int Id { get; set; }
-        public string Naam { get; set; }
+        public int Id { get; }
+        public string Naam { get; }
         public List<Pokemon> Pokemon { get; set; }
 
         public Tegenstander()

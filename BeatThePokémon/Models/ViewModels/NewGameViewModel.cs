@@ -8,7 +8,7 @@ namespace BeatThePokemon.Models.ViewModels
 {
     public class NewGameViewModel
     {
-        public Pokemon Pokemon { get; set; }
+        public PokemonViewModel Pokemon { get; set; }
         public string Image { get; set; }
         public NewGameViewModel[] RandomPokemon { get; set; }
         public int PokemonId { get; set; }

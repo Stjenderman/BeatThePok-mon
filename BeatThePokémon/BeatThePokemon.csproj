@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Context\MSSQL\DataCon.cs" />
     <Compile Remove="Models\Aanval.cs" />
     <Compile Remove="Models\Account.cs" />
     <Compile Remove="Models\ErrorViewModel.cs" />

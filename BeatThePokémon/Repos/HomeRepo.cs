@@ -11,11 +11,13 @@ namespace BeatThePokemon.Repos
     {
         private IHomeContext hCtx;
         private IPokemonContext pCtx;
+        private IAanvalContext anCtx;
 
-        public HomeRepo(IHomeContext hContext, IPokemonContext pContext)
+        public HomeRepo(IHomeContext hContext, IPokemonContext pContext, IAanvalContext anContext)
         {
             this.hCtx = hContext;
             this.pCtx = pContext;
+            this.anCtx = anContext;
         }
 
         public List<int> GetAllId()
@@ -33,7 +35,9 @@ namespace BeatThePokemon.Repos
             List<Pokemon> pokemon = new List<Pokemon>();
             foreach (int i in ids)
             {
-                pokemon.Add(pCtx.GetById(i));
+                Pokemon p = pCtx.GetById(i);
+                p.Aanvallen = anCtx.GetAllByPokemon(p.Id);
+                pokemon.Add(p);
             }
             return pokemon;
         }

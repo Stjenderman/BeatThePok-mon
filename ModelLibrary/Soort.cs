@@ -15,8 +15,8 @@ namespace ModelLibrary.Models
             Water
         }
 
-        public TypeSoorten Naam { get; set; }
-        public string ImageNaam { get; set; }
+        public TypeSoorten Naam { get; }
+        public string ImageNaam { get; }
 
         public Soort(TypeSoorten naam, string imageNaam)
         {

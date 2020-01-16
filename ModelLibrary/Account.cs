@@ -7,7 +7,7 @@ namespace ModelLibrary.Models
 {
     public class Account
     {
-        public int Id { get; set; }
+        public int Id { get; }
         public string Gebruikersnaam { get; set; }
         public string Wachtwoord { get; set; }
         public string Email { get; set; }

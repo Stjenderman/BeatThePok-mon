@@ -13,12 +13,10 @@ namespace BeatThePokemon.Context.MSSQL
     public class AccountContext : IAccountContext
     {
         private readonly string _connstring;
-        private IConfiguration iConfig;
 
         public AccountContext(IConfiguration configuration)
         {
             _connstring = configuration.GetConnectionString("DefaultConnection");
-            iConfig = configuration;
         }
 
         public bool Create(Account account)
@@ -75,7 +73,6 @@ namespace BeatThePokemon.Context.MSSQL
                     }
                     conn.Close();
                 }
-                a.Pokemon = GetAllPokemonOfUser(a.Id);
             }
             catch (Exception e)
             {
@@ -108,7 +105,6 @@ namespace BeatThePokemon.Context.MSSQL
                     }
                     conn.Close();
                 }
-                a.Pokemon = GetAllPokemonOfUser(a.Id);
             }
             catch (Exception e)
             {
@@ -146,12 +142,6 @@ namespace BeatThePokemon.Context.MSSQL
                         }
                     }
                     conn.Close();
-
-                    AanvalContext ac = new AanvalContext(iConfig);
-                    foreach (Pokemon p in pokemonList)
-                    {
-                        p.Aanvallen = ac.GetAllByPokemon(p.Id);
-                    }
                 }
             }
             catch (Exception e)

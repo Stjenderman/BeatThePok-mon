@@ -8,6 +8,6 @@ namespace BeatThePokemon.Models.ViewModels
 {
     public class AanvallenGevechtViewModel
     {
-        public List<Aanval> Aanvallen { get; set; }
+        public List<AanvalViewModel> Aanvallen { get; set; }
     }
 }

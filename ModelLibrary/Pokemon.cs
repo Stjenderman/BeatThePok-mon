@@ -15,12 +15,12 @@ namespace ModelLibrary.Models
     public class Pokemon
     {
         public int Id { get; }
-        public int TeamId { get; set; }
-        public string Naam { get; set; }
-        public Soort Type { get; set; }
+        public int TeamId { get; }
+        public string Naam { get; }
+        public Soort Type { get; }
         public HpValues MaxHP { get; set; }
-        public int HP { get; set; }
-        public byte[] Uiterlijk { get; set; }
+        public int HP { get; }
+        public byte[] Uiterlijk { get; }
         public List<Aanval> Aanvallen { get; set; }
         public string Image { get; set; }
 

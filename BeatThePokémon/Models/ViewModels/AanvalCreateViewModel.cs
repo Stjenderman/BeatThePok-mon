@@ -19,6 +19,6 @@ namespace BeatThePokemon.Models.ViewModels
         public int Power { get; set; }
         [Required(ErrorMessage = "Kies een soort!")]
         public int Soort { get; set; }
-        public List<Soort> AlleSoorten { get; set; }
+        public List<SoortViewModel> AlleSoorten { get; set; }
     }
 }

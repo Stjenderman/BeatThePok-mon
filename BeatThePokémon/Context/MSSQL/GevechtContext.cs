@@ -12,12 +12,10 @@ namespace BeatThePokemon.Context.MSSQL
     public class GevechtContext : IGevechtContext
     {
         private readonly string _connstring;
-        private IConfiguration iConfig;
 
         public GevechtContext(IConfiguration configuration)
         {
             _connstring = configuration.GetConnectionString("DefaultConnection");
-            iConfig = configuration;
         }
 
         public List<int> GetAllId()
@@ -78,8 +76,6 @@ namespace BeatThePokemon.Context.MSSQL
                         }
                     }
                     conn.Close();
-
-                    t.Pokemon = GetAllPokemonOfTegenstander(t.Id, gebruikerId);
                 }
             }
             catch (Exception e)
@@ -160,12 +156,6 @@ namespace BeatThePokemon.Context.MSSQL
                         }
                     }
                     conn.Close();
-
-                    AanvalContext ac = new AanvalContext(iConfig);
-                    foreach (Pokemon p in pokemonList)
-                    {
-                        p.Aanvallen = ac.GetAllByPokemon(p.Id);
-                    }
                 }
             }
             catch (Exception e)
@@ -232,6 +222,7 @@ namespace BeatThePokemon.Context.MSSQL
 
                         cmd.ExecuteNonQuery();
                     }
+                    conn.Close();
                 }
             }
             catch (Exception e)
@@ -334,9 +325,6 @@ namespace BeatThePokemon.Context.MSSQL
                         }
                     }
                     conn.Close();
-
-                    AanvalContext ac = new AanvalContext(iConfig);
-                    p.Aanvallen = ac.GetAllByPokemon(p.Id);
                 }
             }
             catch (Exception e)
@@ -371,9 +359,6 @@ namespace BeatThePokemon.Context.MSSQL
                         }
                     }
                     conn.Close();
-
-                    AanvalContext ac = new AanvalContext(iConfig);
-                    p.Aanvallen = ac.GetAllByPokemon(p.Id);
                 }
             }
             catch (Exception e)
@@ -497,10 +482,12 @@ namespace BeatThePokemon.Context.MSSQL
                         {
                             if (reader.HasRows)
                             {
+                                conn.Close();
                                 return true;
                             }
                             else
                             {
+                                conn.Close();
                                 return false;
                             }
                         }
@@ -537,6 +524,7 @@ namespace BeatThePokemon.Context.MSSQL
 
                         cmd.ExecuteNonQuery();
                     }
+                    conn.Close();
                 }
             }
             catch (Exception e)
@@ -562,6 +550,7 @@ namespace BeatThePokemon.Context.MSSQL
 
                         cmd.ExecuteNonQuery();
                     }
+                    conn.Close();
                 }
             }
             catch (Exception e)
@@ -592,6 +581,7 @@ namespace BeatThePokemon.Context.MSSQL
 
                             cmd.ExecuteNonQuery();
                         }
+                        conn.Close();
                     }
                 }
             }

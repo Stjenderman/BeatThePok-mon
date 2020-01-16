@@ -14,7 +14,7 @@ namespace BeatThePokemon.Models.Convert
         {
             Soort s = new Soort((Soort.TypeSoorten)pcvm.Type, null);
             List<Aanval> aanvallen = new List<Aanval>();
-            aanvallen.Add(pcvm.ToeTeVoegenAanval);
+            aanvallen.Add(AanvalViewModelConvert.ViewModelToAanval(pcvm.ToeTeVoegenAanval));
             MemoryStream memoryStream = new MemoryStream();
             pcvm.Image.CopyTo(memoryStream);
             return new Pokemon(pcvm.Naam, s, aanvallen, memoryStream.ToArray());

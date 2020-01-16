@@ -7,13 +7,13 @@ namespace ModelLibrary.Models
 {
     public class Aanval
     {
-        public int Id { get; set; }
-        public string Naam { get; set; }
-        public int MaxPP { get; set; }
-        public int PP { get; set; }
-        public int Accuratie { get; set; }
-        public int Power { get; set; }
-        public Soort Soort { get; set; }
+        public int Id { get; }
+        public string Naam { get; }
+        public int MaxPP { get; }
+        public int PP { get; }
+        public int Accuratie { get; }
+        public int Power { get; }
+        public Soort Soort { get; }
 
         public Aanval(int id, string naam, int maxPP, int accuratie, int power, Soort soort)
         {

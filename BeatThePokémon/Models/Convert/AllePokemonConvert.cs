@@ -18,9 +18,9 @@ namespace BeatThePokemon.Models.Convert
                 AllePokemonViewModel apvmTemp = new AllePokemonViewModel();
                 apvmTemp.Id = p.Id;
                 apvmTemp.Naam = p.Naam;
-                apvmTemp.Type = p.Type;
+                apvmTemp.Type = SoortViewModelConvert.SoortToViewModel(p.Type);
                 apvmTemp.Image = System.Convert.ToBase64String(p.Uiterlijk);
-                apvmTemp.Aanvallen = p.Aanvallen;
+                apvmTemp.Aanvallen = AanvalViewModelConvert.AanvalListToViewModelList(p.Aanvallen);
                 temp.Add(apvmTemp);
             }
 

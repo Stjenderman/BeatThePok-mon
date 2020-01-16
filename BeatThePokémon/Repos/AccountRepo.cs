@@ -12,9 +12,12 @@ namespace BeatThePokemon.Repos
     public class AccountRepo
     {
         private IAccountContext ctx;
-        public AccountRepo(IAccountContext iaccountContext)
+        private IAanvalContext anCtx;
+
+        public AccountRepo(IAccountContext iaccountContext, IAanvalContext anctx)
         {
             this.ctx = iaccountContext;
+            this.anCtx = anctx;
         }
 
         public bool Create(Account account)
@@ -45,12 +48,19 @@ namespace BeatThePokemon.Repos
 
         public Account GetUserById(int accId)
         {
-            return ctx.GetById(accId);
+            Account a = ctx.GetById(accId);
+            a.Pokemon = GetAllPokemonOfUser(a.Id);
+            return a;
         }
 
         public List<Pokemon> GetAllPokemonOfUser(int gebruikerId)
         {
-            return ctx.GetAllPokemonOfUser(gebruikerId);
+            List < Pokemon > pokemonList = ctx.GetAllPokemonOfUser(gebruikerId);
+            foreach (Pokemon p in pokemonList)
+            {
+                p.Aanvallen = anCtx.GetAllByPokemon(p.Id);
+            }
+            return pokemonList;
         }
     }
 }

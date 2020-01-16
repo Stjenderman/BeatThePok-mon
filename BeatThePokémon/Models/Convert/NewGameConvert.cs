@@ -7,7 +7,7 @@ using ModelLibrary.Models;
 
 namespace BeatThePokemon.Models.Convert
 {
-    public class PokemonNewGameConvert
+    public class NewGameConvert
     {
         public NewGameViewModel PokemonToNewGame(List<Pokemon> pokemon)
         {
@@ -16,7 +16,7 @@ namespace BeatThePokemon.Models.Convert
             foreach (Pokemon tempPok in pokemon)
             {
                 NewGameViewModel temp = new NewGameViewModel();
-                temp.Pokemon = tempPok;
+                temp.Pokemon = PokemonViewModelConvert.PokemonToPokemonViewModel(tempPok);
                 temp.Image = System.Convert.ToBase64String(tempPok.Uiterlijk);
                 viewModels.Add(temp);
             }

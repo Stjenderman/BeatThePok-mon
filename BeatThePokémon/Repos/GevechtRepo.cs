@@ -15,7 +15,7 @@ namespace BeatThePokemon.Repos
         private IAanvalContext anCtx;
         private IAccountContext acCtx;
 
-        public GevechtRepo(IGevechtContext gContext, IPokemonContext pContext, IHomeContext hContext, IAanvalContext anContext,IAccountContext acContext)
+        public GevechtRepo(IGevechtContext gContext, IPokemonContext pContext, IHomeContext hContext, IAanvalContext anContext, IAccountContext acContext)
         {
             this.gCtx = gContext;
             this.pCtx = pContext;
@@ -48,7 +48,9 @@ namespace BeatThePokemon.Repos
 
         public Tegenstander GetById(int id, int gebruikerId)
         {
-            return gCtx.GetById(id, gebruikerId);
+            Tegenstander t = gCtx.GetById(id, gebruikerId);
+            t.Pokemon = GetAllPokemonOfTegenstander(t.Id, gebruikerId);
+            return t;
         }
 
         public List<Pokemon> GetPokemonWithIds(List<int> ids)
@@ -56,7 +58,9 @@ namespace BeatThePokemon.Repos
             List<Pokemon> pokemon = new List<Pokemon>();
             foreach (int i in ids)
             {
-                pokemon.Add(pCtx.GetById(i));
+                Pokemon p = pCtx.GetById(i);
+                p.Aanvallen = anCtx.GetAllByPokemon(p.Id);
+                pokemon.Add(p);
             }
             return pokemon;
         }
@@ -140,16 +144,25 @@ namespace BeatThePokemon.Repos
 
         public Pokemon GetGebruikerPokemonByTeamId(int teamId)
         {
-            return gCtx.GetGebruikerPokemonByTeamId(teamId);
+            Pokemon p = gCtx.GetGebruikerPokemonByTeamId(teamId);
+            p.Aanvallen = anCtx.GetAllByPokemon(p.Id);
+            return p;
         }
 
         public Pokemon GetTegenstanderPokemonByTeamId(int teamId)
         {
-            return gCtx.GetTegenstanderPokemonByTeamId(teamId);
+            Pokemon p = gCtx.GetTegenstanderPokemonByTeamId(teamId);
+            p.Aanvallen = anCtx.GetAllByPokemon(p.Id);
+            return p;
         }
 
         public List<Pokemon> GetAllPokemonOfTegenstander(int tegenstanderId, int gebruikerId)
         {
+            List<Pokemon> pList = new List<Pokemon>();
+            foreach (Pokemon p in pList)
+            {
+                p.Aanvallen = anCtx.GetAllByPokemon(p.Id);
+            }
             return gCtx.GetAllPokemonOfTegenstander(tegenstanderId, gebruikerId);
         }
 
