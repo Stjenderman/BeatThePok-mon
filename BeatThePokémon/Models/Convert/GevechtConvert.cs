@@ -15,8 +15,8 @@ namespace BeatThePokemon.Models.Convert
             gebruikerPokemon.Image = System.Convert.ToBase64String(gebruikerPokemon.Uiterlijk);
             tegenstanderPokemon.Image = System.Convert.ToBase64String(tegenstanderPokemon.Uiterlijk);
 
-            gvm.GebruikerPokemon = gebruikerPokemon;
-            gvm.TegenstanderPokemon = tegenstanderPokemon;
+            gvm.GebruikerPokemon = PokemonViewModelConvert.PokemonToPokemonViewModel(gebruikerPokemon);
+            gvm.TegenstanderPokemon = PokemonViewModelConvert.PokemonToPokemonViewModel(tegenstanderPokemon);
 
             return gvm;
         }

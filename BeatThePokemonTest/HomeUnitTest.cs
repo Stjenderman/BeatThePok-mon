@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BeatThePokemon.Repos;
 using BeatThePokemon.Context.Test;
 using BeatThePokemon.Context.Interfaces;
+using ModelLibrary.Models;
 
 namespace BeatThePokemonTest
 {
@@ -25,8 +26,9 @@ namespace BeatThePokemonTest
 
             IHomeContext homectx = new HomeTestContext();
             IPokemonContext pokectx = new PokemonTestContext();
+            IAanvalContext aanvalctx = new AanvalTestContext();
 
-            HomeRepo hr = new HomeRepo(homectx, pokectx);
+            HomeRepo hr = new HomeRepo(homectx, pokectx, aanvalctx);
 
             //act
             List<int> resultaat = hr.XRandNum(mogelijkeNummers, aantlNummersAlsResultaat);
@@ -51,13 +53,41 @@ namespace BeatThePokemonTest
             //arrange
             IHomeContext homectx = new HomeTestContext();
             IPokemonContext pokectx = new PokemonTestContext();
-            HomeRepo hr = new HomeRepo(homectx, pokectx);
+            IAanvalContext aanvalctx = new AanvalTestContext();
+
+            HomeRepo hr = new HomeRepo(homectx, pokectx, aanvalctx);
 
             //act
             int hp = hr.ReturnHp();
 
             //assert
             Assert.AreNotEqual(-1, hp);
+        }
+
+        [TestMethod]
+        public void TestGetPokemonWithIds()
+        {
+            //arrange
+            IHomeContext hc = new HomeTestContext();
+            IPokemonContext pc = new PokemonTestContext();
+            IAanvalContext ac = new AanvalTestContext();
+            HomeRepo hr = new HomeRepo(hc, pc, ac);
+
+            List<Pokemon> p = new List<Pokemon>();
+            List<int> ints = new List<int>();
+            ints.Add(50);
+            ints.Add(75);
+            ints.Add(69);
+
+            //act
+            p = hr.GetPokemonWithIds(ints);
+
+            //assert
+            foreach (var pokemon in p)
+            {
+                Assert.IsNotNull(pokemon.Id);
+                Assert.AreNotEqual(0, pokemon.Aanvallen.Count);
+            }
         }
     }
 }
