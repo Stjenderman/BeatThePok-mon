@@ -9,14 +9,10 @@ namespace BeatThePokemon.Models.Convert
 {
     public class GevechtConvert
     {
-        public GevechtViewModel AccountToGevecht(Pokemon gebruikerPokemon, Pokemon tegenstanderPokemon)
+        static public GevechtViewModel ImageConvert(GevechtViewModel gvm)
         {
-            GevechtViewModel gvm = new GevechtViewModel();
-            gebruikerPokemon.Image = System.Convert.ToBase64String(gebruikerPokemon.Uiterlijk);
-            tegenstanderPokemon.Image = System.Convert.ToBase64String(tegenstanderPokemon.Uiterlijk);
-
-            gvm.GebruikerPokemon = PokemonViewModelConvert.PokemonToPokemonViewModel(gebruikerPokemon);
-            gvm.TegenstanderPokemon = PokemonViewModelConvert.PokemonToPokemonViewModel(tegenstanderPokemon);
+            gvm.GebruikerPokemon.Image = System.Convert.ToBase64String(gvm.GebruikerPokemon.Uiterlijk);
+            gvm.TegenstanderPokemon.Image = System.Convert.ToBase64String(gvm.TegenstanderPokemon.Uiterlijk);
 
             return gvm;
         }

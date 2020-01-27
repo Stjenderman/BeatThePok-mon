@@ -29,8 +29,6 @@ namespace BeatThePokémon.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("AccountID") == null) { return RedirectToAction("Login", "Account"); }
-
             return View();
         }
 

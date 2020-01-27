@@ -10,6 +10,8 @@ namespace BeatThePokemon.Models.ViewModels
     {
         public PokemonViewModel GebruikerPokemon { get; set; }
         public PokemonViewModel TegenstanderPokemon { get; set; }
+        public AanvalViewModel GebruikerAanval { get; set; }
+        public AanvalViewModel TegenstanderAanval { get; set; }
         public int OudGebruikerHp { get; set; }
         public int OudtegenstanderHp { get; set; }
 

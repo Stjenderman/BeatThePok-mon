@@ -19,12 +19,20 @@
             <nav class="navbar blue">
                 <div class="logo-container">
                 </div>
+                <label class="username">@Context.Session.GetString("Gebruikernaam")</label>
             </nav>
             <div class="nav-transformation blue container-fluid">
                 <table class="nav-table">
                     <tr>
                         <th valign="top"><a class="nav-text" asp-controller="Home" asp-action="Index">Home</a></th>
-                        <th valign="top"><a class="nav-text" asp-controller="Account" asp-action="Login">Login</a></th>
+                        @if (Context.Session.GetString("Gebruikersnaam") == null)
+                        {
+                            <th valign="top"><a class="nav-text" asp-controller="Account" asp-action="Login">Login</a></th>
+                        }
+                        else
+                        {
+                            <th valign="top"><a class="nav-text" asp-controller="Account" asp-action="LogOut">Logout</a></th>
+                        }
                         <th valign="top"><a class="nav-text" asp-controller="Gevecht" asp-action="Index">Gevecht</a></th>
                         <th valign="top">
                             <div class="poke-nav-btn">
@@ -39,7 +47,6 @@
                     </tr>
                 </table>
             </div>
-            <label>@Context.Session.GetString("Gebruikernaam")</label>
         </div>
     </header>
 
@@ -48,14 +55,6 @@
         @RenderBody()
     </main>
 
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - BeatThePokemon - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    
-    
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

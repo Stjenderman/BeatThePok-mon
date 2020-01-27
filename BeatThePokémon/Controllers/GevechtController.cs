@@ -25,50 +25,30 @@ namespace BeatThePokémon.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int aanvalId)
+        public IActionResult Index(GevechtViewModel gvm)
         {
             if (HttpContext.Session.GetInt32("AccountID") == null) { return RedirectToAction("Login", "Account"); }
 
-            if (!accountRepo.HasPokemon((int)HttpContext.Session.GetInt32("AccountID")))
+            int userId = (int)HttpContext.Session.GetInt32("AccountID");            
+
+            if (!accountRepo.HasPokemon(userId))
             {
                 return RedirectToAction("NewGame", "Home");
             }
-
-            int userId = (int)HttpContext.Session.GetInt32("AccountID");
 
             if (!gevechtRepo.GevechtExists(userId))
             {
                 gevechtRepo.CreateGevecht(accountRepo.GetUserById(userId));
             }
 
-            int tegenstanderId = gevechtRepo.GetTegenstanderIdWithUserId(userId);
-            Account a = accountRepo.GetUserById(userId);
-
-            GevechtViewModel gvm = new GevechtViewModel();
-
-            if (aanvalId != 0)
-            {
-                gevechtRepo.VoerGebruikerAanvalUit(aanvalId, a);
-                gevechtRepo.VoerTegenstanderAanvalUit(a);
-            }
-                        
-            if (gevechtRepo.CheckIfAllPokemonFainted(gevechtRepo.GetAllPokemonOfTegenstander(tegenstanderId, userId)))
-            {
-                gevechtRepo.StartNewGevecht(userId);
-                gevechtRepo.CreateGevecht(accountRepo.GetUserById(userId));
-            }            
-            else if (gevechtRepo.CheckIfAllPokemonFainted(accountRepo.GetAllPokemonOfUser(userId)))
-            {
-                gevechtRepo.StartNewGame(userId);
-                return RedirectToAction("Index", "Home");
-            }
-
             Pokemon GebruikerPokemon = gevechtRepo.GetGebruikerPokemonByTeamId(gevechtRepo.GetGebruikerTeamId(userId));
             Pokemon TegenstanderPokemon = gevechtRepo.GetTegenstanderPokemonByTeamId(gevechtRepo.GetTegenstanderTeamId(userId));
-            GevechtConvert agc = new GevechtConvert();
-            gvm = agc.AccountToGevecht(GebruikerPokemon, TegenstanderPokemon);
+            gvm.GebruikerPokemon = PokemonViewModelConvert.PokemonToPokemonViewModel(GebruikerPokemon);
+            gvm.TegenstanderPokemon = PokemonViewModelConvert.PokemonToPokemonViewModel(TegenstanderPokemon);
 
-            return View(gvm);
+            gvm = GevechtConvert.ImageConvert(gvm);
+
+            return View("Index", gvm);
         }
 
         [HttpGet]
@@ -83,17 +63,43 @@ namespace BeatThePokémon.Controllers
         }
 
         [HttpPost]
-        public IActionResult VoerAanvalUit(int aanvalId)
+        public IActionResult VoerAanvalUit(int gAanvalId)
         {
-            /*int userId = (int)HttpContext.Session.GetInt32("AccountID");
-            int tegenstanderId = gevechtRepo.GetTegenstanderIdWithUserId(userId);
+            Account a = accountRepo.GetUserById((int)HttpContext.Session.GetInt32("AccountID"));
+            int tegenstanderTeamId = gevechtRepo.GetTegenstanderTeamId(a.Id);
+            int gebruikerTeamId = gevechtRepo.GetGebruikerTeamId(a.Id);
 
-            Account a = accountRepo.GetUserById(userId);
-            a.Tegenstander = gevechtRepo.GetById(tegenstanderId, userId);
-            gevechtRepo.VoerGebruikerAanvalUit(aanvalId, a);
-            gevechtRepo.VoerTegenstanderAanvalUit(a);*/
+            int gOudeHp = gevechtRepo.GetGebruikerPokemonByTeamId(gebruikerTeamId).HP;
+            int tOudeHp = gevechtRepo.GetTegenstanderPokemonByTeamId(tegenstanderTeamId).HP;
 
-            return View("Index", aanvalId);
+            Aanval gAanval = gevechtRepo.VoerGebruikerAanvalUit(gAanvalId, tegenstanderTeamId, tOudeHp);
+            Aanval tAanval = gevechtRepo.VoerTegenstanderAanvalUit(gebruikerTeamId, gOudeHp, tegenstanderTeamId);
+
+            GevechtViewModel gvm = new GevechtViewModel();
+            gvm.GebruikerAanval = AanvalViewModelConvert.AanvalToViewModel(gAanval);
+            gvm.TegenstanderAanval = AanvalViewModelConvert.AanvalToViewModel(tAanval);
+            gvm.OudGebruikerHp = gOudeHp;
+            gvm.OudtegenstanderHp = tOudeHp;
+
+            return Index(gvm);
+        }
+
+        [HttpPost]
+        public IActionResult NewGevecht()
+        {
+            Account a = accountRepo.GetUserById((int)HttpContext.Session.GetInt32("AccountID"));
+            gevechtRepo.StartNewGevecht(a.Id);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult NewGame()
+        {
+            Account a = accountRepo.GetUserById((int)HttpContext.Session.GetInt32("AccountID"));
+            gevechtRepo.StartNewGame(a.Id);
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -28,8 +28,6 @@ namespace BeatThePokemon.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            pokemonRepo.GetById(29);
-
             return View();
         }
 

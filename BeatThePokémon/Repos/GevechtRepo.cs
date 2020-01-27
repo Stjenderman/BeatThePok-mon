@@ -65,25 +65,23 @@ namespace BeatThePokemon.Repos
             return pokemon;
         }
 
-        public bool VoerGebruikerAanvalUit(int aanvalId, Account a)
+        public Aanval VoerGebruikerAanvalUit(int aanvalId, int tegenstanderTeamId, int hp)
         {
-            int tegenstanderTeamId = GetTegenstanderTeamId(a.Id);
-            int hp = GetTegenstanderPokemonByTeamId(tegenstanderTeamId).HP;
             Aanval aanval = anCtx.GetById(aanvalId);
             int nieuwHp = GetRandomNewHp(hp, aanval);
+            gCtx.UpdateHpTegenstander(nieuwHp, tegenstanderTeamId);
 
-            return gCtx.UpdateHpTegenstander(nieuwHp, tegenstanderTeamId);
+            return aanval;
         }
 
-        public bool VoerTegenstanderAanvalUit(Account a)
+        public Aanval VoerTegenstanderAanvalUit(int gebruikerTeamId, int oudeHp, int tegenstanderTeamId)
         {
-            int gebruikerTeamId = GetGebruikerTeamId(a.Id);
-            Pokemon tegenstanderPokemon = GetTegenstanderPokemonByTeamId(GetTegenstanderTeamId(a.Id));
+            Pokemon tegenstanderPokemon = GetTegenstanderPokemonByTeamId(tegenstanderTeamId);
             Aanval aanval = GetRandomAanval(tegenstanderPokemon);
-            int oudeHp = GetGebruikerPokemonByTeamId(GetGebruikerTeamId(a.Id)).HP;
             int nieuweHp = GetRandomNewHp(oudeHp, aanval);
+            gCtx.UpdateHpGebruiker(nieuweHp, gebruikerTeamId);
 
-            return gCtx.UpdateHpGebruiker(nieuweHp, gebruikerTeamId);
+            return aanval;
         }
 
         public Aanval GetRandomAanval(Pokemon p)
@@ -102,7 +100,7 @@ namespace BeatThePokemon.Repos
 
         public int NewHp(int oudeHp, Aanval a, int randGetal)
         {
-            int nieuweHp = -1;
+            int nieuweHp;
 
             if (randGetal <= a.Accuratie - 10)
             {
@@ -110,7 +108,7 @@ namespace BeatThePokemon.Repos
             }
             else if (randGetal >= 90)
             {
-                nieuweHp = oudeHp - (a.Power * 2);
+                nieuweHp = oudeHp - a.Power * 20;
             }
             else
             {

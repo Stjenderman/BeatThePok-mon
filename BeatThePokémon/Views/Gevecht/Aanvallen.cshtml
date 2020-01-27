@@ -6,11 +6,11 @@
 
 <h1>Aanvallen</h1>
 
-<form class="row" method="get" asp-action="Index">
+<form class="row" method="post" asp-action="VoerAanvalUit">
     @foreach (var a in Model.Aanvallen)
     {
         <div class="col-md-6">
-            <button value="@a.Id" name="aanvalId" class="btn-aanval">@a.Naam</button>
+            <button value="@a.Id" name="gAanvalId" class="btn-aanval">@a.Naam</button>
         </div>
     }
 </form>

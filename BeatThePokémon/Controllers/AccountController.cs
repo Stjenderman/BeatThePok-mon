@@ -21,6 +21,8 @@ namespace BeatThePokemon.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (HttpContext.Session.GetInt32("AccountID") != null) { return RedirectToAction("Index", "Home"); }
+
             return View();
         }
 
@@ -32,7 +34,7 @@ namespace BeatThePokemon.Controllers
                 if (accountRepo.Check(lvm.Gebruikersnaam, lvm.Wachtwoord))
                 {
                     HttpContext.Session.SetInt32("AccountID", accountRepo.GetIdByName(lvm.Gebruikersnaam));
-                    HttpContext.Session.SetString("Gebruikernaam", lvm.Gebruikersnaam);
+                    HttpContext.Session.SetString("Gebruikersnaam", lvm.Gebruikersnaam);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -40,9 +42,18 @@ namespace BeatThePokemon.Controllers
             return View(lvm);
         }
 
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Login");
+        }
+
         [HttpGet]
         public IActionResult Registratie()
         {
+            if (HttpContext.Session.GetInt32("AccountID") != null) { return RedirectToAction("Index", "Home"); }
+
             return View();
         }
 

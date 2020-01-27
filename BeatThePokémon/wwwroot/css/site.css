@@ -131,13 +131,15 @@ body {
     padding: 0;
 }
 
+.username {
+    color: #FFCB05 !important;
+}
+
 .logo-container {
     width: 150px;
     height: 55px;
     background-image: url(../images/pokemon-logo.png);
     background-size: cover;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .blue {
@@ -190,6 +192,7 @@ body {
 
 /*Css voor gevecht index*/
 .div-gevecht-pok1 {
+    padding-top: 20px;
     height: 200px;
     background-color: grey;
 }
@@ -199,6 +202,7 @@ body {
 }
 
 .div-gevecht-pok2 {
+    padding-top: 20px;
     height: 200px;
     background-color: grey;
 }
@@ -235,10 +239,11 @@ body {
 
 /*Css voor new game*/
 .choose-image {
-    width: 200px;
+    height: 200px;
     margin-left: auto;
     margin-right: auto;
     display: block;
+    bottom: 0px;
 }
 
     .choose-image:hover {
@@ -254,4 +259,25 @@ body {
     background-color: lightgray;
     width: 100%;
     height: 250px;
+}
+
+/*Css voor hoofdpagina*/
+.href-text {
+    color: #FFCB05;
+    font-size: 30px;
+    text-align: center;
+}
+
+    .href-text label {
+        color: #FFCB05;
+        font-size: 30px;
+        text-align: center;
+    }
+
+.hoofdpagina-img {
+    height: 550px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }

@@ -5,18 +5,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
+@if (Model.TegenstanderPokemon.HP <= 0)
+{
+    <style>
     .health-bar-gebruiker {
         background-color: chartreuse;
         width: 0px;
-        width: @((int)((double)Model.GebruikerPokemon.HP/(double)Model.GebruikerPokemon.MaxHP*380))px;
+        width: @((int)((double)Model.OudGebruikerHp / (double)Model.GebruikerPokemon.MaxHP * 380))px;
         height: 23px;
     }
-
+    </style>
+}
+else
+{
+    <style>
+    .health-bar-gebruiker {
+        background-color: chartreuse;
+        width: 0px;
+        width: @((int)((double)Model.GebruikerPokemon.HP / (double)Model.GebruikerPokemon.MaxHP * 380))px;
+        height: 23px;
+    }
+    </style>
+}
+<style>
     .health-bar-tegenstander {
         background-color: aqua;
         width: 0px;
-        width: @((int)((double)Model.TegenstanderPokemon.HP/(double)Model.TegenstanderPokemon.MaxHP*380))px;
+        width: @((int)((double)Model.TegenstanderPokemon.HP / (double)Model.TegenstanderPokemon.MaxHP * 380))px;
         height: 23px;
     }
 
@@ -28,7 +43,17 @@
 </style>
 
 <div class="container-fluid div-gevecht-pok1 row">
-    <div class="offset-md-8 col-md-3">
+    <div class="offset-md-2 col-md-3" style="text-align:center">
+        @if (Model.GebruikerAanval == null)
+        {
+
+        }
+        else
+        {
+            <label>@Model.GebruikerPokemon.Naam heeft @Model.GebruikerAanval.Naam gebruikt en heeft @((Model.OudtegenstanderHp - Model.TegenstanderPokemon.HP).ToString()) hp damage gedaan</label>
+        }
+    </div>
+    <div class="offset-md-3 col-md-3">
         <img class="gevecht-pokemon-img" src="data:image/png;base64, @Model.TegenstanderPokemon.Image">
     </div>
 </div>
@@ -48,13 +73,35 @@
     <div class="offset-md-2 col-md-3">
         <img class="gevecht-pokemon-img" src="data:image/png;base64, @Model.GebruikerPokemon.Image">
     </div>
+    <div class="offset-md-3 col-md-3" style="text-align:center">
+        @if (Model.GebruikerAanval != null && Model.TegenstanderPokemon.HP > 0)
+        {
+            <label>@Model.TegenstanderPokemon.Naam heeft @Model.TegenstanderAanval.Naam gebruikt en heeft @((Model.OudGebruikerHp - Model.GebruikerPokemon.HP).ToString()) hp damage gedaan</label>
+        }
+        else { }
+    </div>
 </div>
 
 <div class="container-fluid div-gevecht-knoppen row">
-    <form class="col-md-6 knop" asp-controller="Gevecht" asp-action="Aanvallen" method="get">
-        <button class="btn" name="pokId" value="@Model.GebruikerPokemon.Id">Aanvallen</button>
-    </form>
-    <form class="col-md-6 knop">
-        <input type="submit" class="btn" value="Inventory" />
-    </form>
+    @if (Model.TegenstanderPokemon.HP <= 0)
+    {
+        <form class="col-md-12 knop" asp-controller="Gevecht" asp-action="NewGevecht" method="post">
+            <button class="btn">Volgend gevecht</button>
+        </form>
+    }
+    else if (Model.GebruikerPokemon.HP <= 0)
+    {
+        <form class="col-md-12 knop" asp-controller="Gevecht" asp-action="NewGame" method="post">
+            <button class="btn">Nieuw game</button>
+        </form>
+    }
+    else
+    {
+        <form class="col-md-6 knop" asp-controller="Gevecht" asp-action="Aanvallen" method="get">
+            <button class="btn" name="pokId" value="@Model.GebruikerPokemon.Id">Aanvallen</button>
+        </form>
+        <form class="col-md-6 knop">
+            <input type="submit" class="btn" value="Inventory" />
+        </form>
+    }
 </div>
