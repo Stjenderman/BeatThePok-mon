@@ -108,7 +108,7 @@ namespace BeatThePokemon.Repos
             }
             else if (randGetal >= 90)
             {
-                nieuweHp = oudeHp - a.Power * 20;
+                nieuweHp = oudeHp - a.Power + 20;
             }
             else
             {
